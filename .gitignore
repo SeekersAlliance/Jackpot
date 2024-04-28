@@ -1,0 +1,7 @@
+.DS_Store
+node_modules
+metacraft
+
+assets/img
+assets/favicon.ico
+assets/style.css
