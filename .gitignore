@@ -1,4 +1,6 @@
 .DS_Store
+.yarn/install-state.gz
+
 node_modules
 metacraft
 
