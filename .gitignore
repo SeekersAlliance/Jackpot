@@ -5,5 +5,8 @@ node_modules
 metacraft
 
 assets/img
+assets/font
 assets/favicon.ico
 assets/style.css
+
+.vscode
