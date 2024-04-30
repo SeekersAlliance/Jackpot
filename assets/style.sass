@@ -5,6 +5,13 @@
         font-weight: $weight
         font-style: $style
 
+@mixin font-primary($variant, $weight)
+    @font-face
+        font-family: "TitilliumWeb"
+        src: url("./font/TitilliumWeb-#{$variant}.ttf") format("truetype")
+        font-weight: $weight
+
+
 :root
     --sat: env(safe-area-inset-top)
     --sar: env(safe-area-inset-right)
@@ -12,8 +19,11 @@
     --sal: env(safe-area-inset-left)
 
 body, html
-    background-color: #011726
-    overflow: hidden
+    background-color: #000
+    overflow-x: hidden
+    overflow-y: scroll
+    margin: 0
+    height: 100vh
 
     @media (max-width:420px)
         background-color: #19232c
@@ -23,13 +33,7 @@ body, html
         height: 600px
 
 #root
-    display: flex
-    position: absolute
-    overflow: hidden
-    top: 0 
-    left: 0
-    right: 0
-    bottom: 0
+    margin: 0
 
     @media all and (display-mode: standalone)  
         height: 99.9vh
@@ -60,3 +64,6 @@ h1, h2, h3, h4, h5, h6
 @include font-rubik("Light", 300, normal)
 @include font-rubik("LightItalic", 300, italic)
 
+@include font-primary("Bold", 700)
+@include font-primary("SemiBold", 600)
+@include font-primary("Regular", 400)
