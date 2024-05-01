@@ -7,6 +7,10 @@ export const router = createBrowserRouter([
 		path: '/',
 		element: <HomeScreen />,
 	},
+	{
+		path: '/inventory',
+		element: <HomeScreen />,
+	},
 ]);
 
 export const App: FC = () => {

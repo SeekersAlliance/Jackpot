@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const tabs = [
@@ -22,6 +22,7 @@ const tabs = [
 
 export const Header: FC = () => {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	return (
 		<Container>
@@ -31,7 +32,11 @@ export const Header: FC = () => {
 						return (
 							<img
 								key={tab.link}
-								src={tab.img}
+								src={
+									location?.pathname === tab.link
+										? tab.imgActive
+										: tab.img
+								}
 								onClick={() => navigate(tab.link)}
 							/>
 						);
