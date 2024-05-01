@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomeScreen from 'screens/Home';
+import InventoryScreen from 'screens/Inventory';
 
 export const router = createBrowserRouter([
 	{
@@ -9,7 +10,7 @@ export const router = createBrowserRouter([
 	},
 	{
 		path: '/inventory',
-		element: <HomeScreen />,
+		element: <InventoryScreen />,
 	},
 ]);
 

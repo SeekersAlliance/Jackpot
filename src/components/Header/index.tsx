@@ -43,7 +43,7 @@ export const Header: FC = () => {
 					})}
 				</NavigateGroup>
 			</div>
-			<div style={{ flex: 1 }}>
+			<div style={{ flex: 1, justifyContent: 'center' }}>
 				<Jackpot src="img/pg1-2/jackpot.png" />
 			</div>
 			<div style={{ flex: 1, justifyContent: 'flex-end' }}>

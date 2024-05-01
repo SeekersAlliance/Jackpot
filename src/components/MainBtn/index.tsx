@@ -5,9 +5,17 @@ interface Props {
 	children: string;
 	onClick?: () => void;
 	tag?: string;
+	isLong?: boolean;
+	disabled?: boolean;
 }
 
-export const MainBtn: FC<Props> = ({ children, onClick, tag }) => {
+export const MainBtn: FC<Props> = ({
+	children,
+	onClick,
+	tag,
+	isLong = false,
+	disabled = false,
+}) => {
 	const [focus, setFocus] = useState(false);
 	const hasTag = !!tag;
 
@@ -18,7 +26,9 @@ export const MainBtn: FC<Props> = ({ children, onClick, tag }) => {
 			onClick={onClick}
 		>
 			{hasTag && <Tag>{tag}</Tag>}
-			<Button $focus={focus}>{children}</Button>
+			<Button $focus={focus} $isLong={isLong} $disabled={disabled}>
+				{children}
+			</Button>
 		</Container>
 	);
 };
@@ -46,19 +56,30 @@ const Tag = styled.div`
 	transform: translateX(20px);
 `;
 
-const Button = styled.div<{ $focus: boolean }>`
-	background-image: url('/img/buttons/${({ $focus }) =>
-		$focus ? 'main_click.png' : 'main.png'}');
+const Button = styled.div<{
+	$focus: boolean;
+	$isLong: boolean;
+	$disabled: boolean;
+}>`
+	background-image: url('/img/buttons/${({ $focus, $isLong, $disabled }) => {
+		const prefix = $isLong ? 'main_long' : 'main';
+		return $disabled
+			? `${prefix}_unavailable.png`
+			: $focus
+				? `${prefix}_click.png`
+				: `${prefix}.png`;
+	}}');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center 3px;
-	width: 380px;
-	aspect-ratio: 455 / 59;
+	width: ${({ $isLong }) => ($isLong ? '600px' : '380px')};
+	aspect-ratio: ${({ $isLong }) => ($isLong ? 798 / 59 : 455 / 59)};
 	align-items: center;
 	justify-content: center;
 	font-size: 28px;
 	font-weight: 700;
 	font-family: 'TitilliumWeb';
 	user-select: none;
-	cursor: pointer;
+	${({ $disabled }) =>
+		$disabled ? 'pointer-event: none;' : 'cursor: pointer;'}
 `;
