@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import DashboardScreen from 'screens/Dashboard';
 import HomeScreen from 'screens/Home';
 import InventoryScreen from 'screens/Inventory';
 
@@ -11,6 +12,10 @@ export const router = createBrowserRouter([
 	{
 		path: '/inventory',
 		element: <InventoryScreen />,
+	},
+	{
+		path: '/dashboard',
+		element: <DashboardScreen />,
 	},
 ]);
 

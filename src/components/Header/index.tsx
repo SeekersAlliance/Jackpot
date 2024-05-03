@@ -67,6 +67,7 @@ const Container = styled.div`
 	width: 100%;
 	justify-content: space-between;
 	align-self: start;
+	padding-bottom: 50px;
 `;
 
 const NavigateGroup = styled.div`

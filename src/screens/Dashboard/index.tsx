@@ -1,0 +1,75 @@
+import type { FC } from 'react';
+import { useState } from 'react';
+import Header from 'components/Header';
+import styled from 'styled-components';
+
+import Referrals from './Referrals';
+
+enum TabId {
+	Referrals,
+	ProfitShare,
+}
+
+export const DashboardScreen: FC = () => {
+	const [tabId, setTabId] = useState(TabId.Referrals);
+	console.log(Object.values(TabId));
+	return (
+		<Container>
+			<Header />
+			<Content>
+				<TabGroup>
+					<TabBtn
+						$active={tabId === TabId.Referrals}
+						onClick={() => setTabId(TabId.Referrals)}
+					>
+						Referrals
+					</TabBtn>
+					<TabBtn
+						$active={tabId === TabId.ProfitShare}
+						onClick={() => setTabId(TabId.ProfitShare)}
+					>
+						Early-Buyer Profit-Share
+					</TabBtn>
+				</TabGroup>
+				<Referrals active={tabId === TabId.Referrals} />
+			</Content>
+		</Container>
+	);
+};
+
+export default DashboardScreen;
+
+const Container = styled.div`
+	flex-direction: column;
+	align-items: center;
+	height: 100vh;
+`;
+
+const Content = styled.div`
+	flex-direction: column;
+	max-width: 1200px;
+	width: 100%;
+	display: block;
+`;
+
+const TabGroup = styled.div`
+	gap: 15px;
+`;
+
+const TabBtn = styled.div<{ $active: boolean }>`
+	background-image: url(${({ $active }) =>
+		$active
+			? 'img/buttons/dashboard_tab_onpage.png'
+			: 'img/buttons/dashboard_tab.png'});
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 250px;
+	aspect-ratio: 361 / 79;
+	justify-content: center;
+	align-items: center;
+	font-size: 20px;
+	font-weight: 600;
+	color: ${({ $active }) => ($active ? '#000' : '#fecd20')};
+	user-select: none;
+	cursor: pointer;
+`;
