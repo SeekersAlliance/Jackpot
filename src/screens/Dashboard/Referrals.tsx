@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useState } from 'react';
+import { MetricBox } from 'components/MetricBox';
 import styled from 'styled-components';
 
 interface Props {
@@ -23,6 +24,14 @@ export const Referrals: FC<Props> = ({ active = true }) => {
 					/>
 				</ReferralInput>
 			</ReferralBox>
+			<MetricGroup>
+				<MetricBox title="Successful Referrals" metric="30" />
+				<MetricBox
+					title="Total Cards Bought by Referrals "
+					metric="350"
+				/>
+				<MetricBox title="You Earned" metric="$101.30" />
+			</MetricGroup>
 		</Container>
 	);
 };
@@ -80,4 +89,9 @@ const CopyBtn = styled.div<{ $focus: boolean }>`
 	width: 50px;
 	aspect-ratio: 1;
 	cursor: pointer;
+`;
+
+const MetricGroup = styled.div`
+	justify-content: space-between;
+	gap: 25px;
 `;
