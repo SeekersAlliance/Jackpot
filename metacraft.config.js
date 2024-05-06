@@ -27,7 +27,10 @@ const copyAssets = (config) => {
 };
 
 module.exports = {
-	publicPath: () => process.env.PUBLIC_URL || '/',
+	publicPath: () =>
+		process.env.PUBLIC_URL || process.env.NODE_ENV === 'development'
+			? '/'
+			: '/jackpot',
 	keepPreviousBuild: () => true,
 	buildId: () => 'app',
 	webpackMiddlewares: [copyAssets],
