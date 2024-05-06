@@ -12,7 +12,7 @@ enum TabId {
 
 export const DashboardScreen: FC = () => {
 	const [tabId, setTabId] = useState(TabId.Referrals);
-	console.log(Object.values(TabId));
+
 	return (
 		<Container>
 			<Header />

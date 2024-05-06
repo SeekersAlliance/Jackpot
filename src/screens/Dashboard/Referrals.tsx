@@ -16,7 +16,7 @@ export const Referrals: FC<Props> = ({ active = true }) => {
 			<ReferralBox>
 				<h3>Your Referral Link:</h3>
 				<ReferralInput>
-					<input value={input} />
+					<input value={input} readOnly />
 					<CopyBtn
 						$focus={copyClick}
 						onMouseDown={() => setCopyClick(true)}
@@ -32,6 +32,32 @@ export const Referrals: FC<Props> = ({ active = true }) => {
 				/>
 				<MetricBox title="You Earned" metric="$101.30" />
 			</MetricGroup>
+
+			<ReferredTrack>
+				<ReferredBox>
+					<div>
+						<div>
+							<h3>Referred Address</h3>
+						</div>
+						<div>
+							<h3>Total Spending (TestUSD)</h3>
+						</div>
+					</div>
+					<div>
+						<div>0x21ba0aE36317C9...F819995F45a99ceEC5</div>
+						<div>
+							<div>$10.00</div>
+						</div>
+					</div>
+					<div>
+						<div>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</div>
+						<div>
+							<div>$100.00</div>
+						</div>
+					</div>
+				</ReferredBox>
+				<ReferralImage />
+			</ReferredTrack>
 		</Container>
 	);
 };
@@ -40,7 +66,7 @@ export default Referrals;
 
 const Container = styled.div<{ $active: boolean }>`
 	flex-direction: column;
-	display: ${({ $active }) => ($active ? 'flex' : 'none')};
+	display: ${({ $active }) => ($active ? 'flex' : 'none')} !important;
 	width: 100%;
 	padding: 15px 0;
 	gap: 15px;
@@ -94,4 +120,59 @@ const CopyBtn = styled.div<{ $focus: boolean }>`
 const MetricGroup = styled.div`
 	justify-content: space-between;
 	gap: 25px;
+`;
+
+const ReferredTrack = styled.div`
+	align-self: stretch;
+	margin-top: 15px;
+`;
+
+const ReferredBox = styled.div`
+	background-image: url('img/pg9-10/referred_list_box.png');
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 560px;
+	aspect-ratio: 572 / 405;
+	flex-direction: column;
+	overflow-y: scroll;
+
+	div {
+		div {
+			justify-content: center;
+			font-size: 20px;
+			font-weight: 600;
+
+			&:nth-child(odd) {
+				flex: 1.5;
+				color: #fff;
+			}
+
+			&:nth-child(even) {
+				display: block !important;
+				flex: 1;
+				div {
+					color: #fecd21;
+					margin: 0 auto;
+					width: 80px;
+					justify-content: flex-end;
+				}
+			}
+
+			h3 {
+				text-align: center;
+				font-size: 24px;
+				font-weight: 600;
+				color: #fff;
+				margin: 15px 0;
+			}
+		}
+	}
+`;
+
+const ReferralImage = styled.div`
+	background-image: url('img/pg9-10/referral_banner.jpg');
+	background-size: contain;
+	background-repeat: no-repeat;
+	flex: 1;
+	align-self: stretch;
 `;
