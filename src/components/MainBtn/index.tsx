@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 import styled from 'styled-components';
+import { getBaseUrl } from 'utils/helper';
 
 interface Props {
 	children: string;
@@ -41,7 +42,7 @@ const Container = styled.div`
 `;
 
 const Tag = styled.div`
-	background-image: url('/img/buttons/main_tag.png');
+	background-image: url('${getBaseUrl()}/img/buttons/main_tag.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center 2px;
@@ -61,7 +62,11 @@ const Button = styled.div<{
 	$isLong: boolean;
 	$disabled: boolean;
 }>`
-	background-image: url('/img/buttons/${({ $focus, $isLong, $disabled }) => {
+	background-image: url('${getBaseUrl()}/img/buttons/${({
+		$focus,
+		$isLong,
+		$disabled,
+	}) => {
 		const prefix = $isLong ? 'main_long' : 'main';
 		return $disabled
 			? `${prefix}_unavailable.png`

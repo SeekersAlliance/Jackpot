@@ -3,6 +3,7 @@ import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
 import { CardType, getCardImage } from 'utils/cards';
+import { getBaseUrl } from 'utils/helper';
 
 const cardInWallet = [1, 1, 1, 3, 3, 4, 4, 4, 4];
 const cardCollected = Array.from(new Set(cardInWallet));
@@ -58,7 +59,7 @@ const Title = styled.h1`
 
 const Collection = styled.div`
 	margin-top: 30px;
-	background-image: url('img/pg6-7/inventory_frame.png');
+	background-image: url('${getBaseUrl()}/img/pg6-7/inventory_frame.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	max-width: 1200px;

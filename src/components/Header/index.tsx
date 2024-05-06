@@ -1,22 +1,23 @@
 import type { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getBaseUrl } from 'utils/helper';
 
 const tabs = [
 	{
 		link: '/',
-		img: 'img/buttons/buy_cards.png',
-		imgActive: 'img/buttons/buy_cards_onpage.png',
+		img: `${getBaseUrl()}/img/buttons/buy_cards.png`,
+		imgActive: `${getBaseUrl()}/img/buttons/buy_cards_onpage.png`,
 	},
 	{
 		link: '/inventory',
-		img: 'img/buttons/inventory.png',
-		imgActive: 'img/buttons/inventory_onpage.png',
+		img: `${getBaseUrl()}/img/buttons/inventory.png`,
+		imgActive: `${getBaseUrl()}/img/buttons/inventory_onpage.png`,
 	},
 	{
 		link: '/dashboard',
-		img: 'img/buttons/dashboard.png',
-		imgActive: 'img/buttons/dashboard_onpage.png',
+		img: `${getBaseUrl()}/img/buttons/dashboard.png`,
+		imgActive: `${getBaseUrl()}/img/buttons/dashboard_onpage.png`,
 	},
 ];
 
@@ -44,7 +45,7 @@ export const Header: FC = () => {
 				</NavigateGroup>
 			</div>
 			<div style={{ flex: 1, justifyContent: 'center' }}>
-				<Jackpot src="img/pg1-2/jackpot.png" />
+				<Jackpot src={`${getBaseUrl()}/img/pg1-2/jackpot.png`} />
 			</div>
 			<div style={{ flex: 1, justifyContent: 'flex-end' }}>
 				<ConnectWallet
@@ -92,7 +93,7 @@ const ConnectWallet = styled.div`
 	aspect-ratio: 328 / 146;
 	align-items: center;
 	justify-content: center;
-	background-image: url(img/buttons/connect.png);
+	background-image: url('${getBaseUrl()}/img/buttons/connect.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;

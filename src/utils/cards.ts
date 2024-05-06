@@ -1,4 +1,6 @@
-const baseUrl = 'img/cards/';
+import { getBaseUrl } from './helper';
+
+const baseUrl = `${getBaseUrl()}/img/cards/`;
 export enum CardType {
 	none = 'none.png',
 	single = 'single.png',

@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 import styled from 'styled-components';
+import { getBaseUrl } from 'utils/helper';
 
 interface Props {
 	children: string;
@@ -24,7 +25,7 @@ export const FaucetBtn: FC<Props> = ({ children, onClick }) => {
 export default FaucetBtn;
 
 const Container = styled.div<{ $focus: boolean }>`
-	background-image: url('/img/buttons/${({ $focus }) =>
+	background-image: url('${getBaseUrl()}/img/buttons/${({ $focus }) =>
 		$focus ? 'faucet_click.png' : 'faucet.png'}');
 	background-size: contain;
 	background-position: 5px 5px;

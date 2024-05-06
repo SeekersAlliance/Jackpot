@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import { MetricBox } from 'components/MetricBox';
 import styled from 'styled-components';
+import { getBaseUrl } from 'utils/helper';
 
 interface Props {
 	active?: boolean;
@@ -73,7 +74,7 @@ const Container = styled.div<{ $active: boolean }>`
 `;
 
 const ReferralBox = styled.div`
-	background-image: url('img/pg9-10/referral_link_box.png');
+	background-image: url('${getBaseUrl()}/img/pg9-10/referral_link_box.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	width: 100%;
@@ -110,7 +111,9 @@ const ReferralInput = styled.div`
 
 const CopyBtn = styled.div<{ $focus: boolean }>`
 	background-image: url(${({ $focus }) =>
-		$focus ? 'img/buttons/copy_click.png' : 'img/buttons/copy.png'});
+		$focus
+			? `${getBaseUrl()}/img/buttons/copy_click.png`
+			: `${getBaseUrl()}/img/buttons/copy.png`});
 	background-size: contain;
 	width: 50px;
 	aspect-ratio: 1;
@@ -128,7 +131,7 @@ const ReferredTrack = styled.div`
 `;
 
 const ReferredBox = styled.div`
-	background-image: url('img/pg9-10/referred_list_box.png');
+	background-image: url('${getBaseUrl()}/img/pg9-10/referred_list_box.png');
 	background-repeat: no-repeat;
 	background-size: contain;
 	height: 560px;
@@ -170,7 +173,7 @@ const ReferredBox = styled.div`
 `;
 
 const ReferralImage = styled.div`
-	background-image: url('img/pg9-10/referral_banner.jpg');
+	background-image: url('${getBaseUrl()}/img/pg9-10/referral_banner.jpg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	flex: 1;

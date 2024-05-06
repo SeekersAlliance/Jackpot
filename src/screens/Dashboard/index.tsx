@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { useState } from 'react';
 import Header from 'components/Header';
 import styled from 'styled-components';
+import { getBaseUrl } from 'utils/helper';
 
 import Referrals from './Referrals';
 
@@ -59,8 +60,8 @@ const TabGroup = styled.div`
 const TabBtn = styled.div<{ $active: boolean }>`
 	background-image: url(${({ $active }) =>
 		$active
-			? 'img/buttons/dashboard_tab_onpage.png'
-			: 'img/buttons/dashboard_tab.png'});
+			? `${getBaseUrl()}/img/buttons/dashboard_tab_onpage.png`
+			: `${getBaseUrl()}/img/buttons/dashboard_tab.png`});
 	background-size: contain;
 	background-repeat: no-repeat;
 	width: 250px;

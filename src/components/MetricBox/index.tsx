@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import styled from 'styled-components';
+import { getBaseUrl } from 'utils/helper';
 
 interface Props {
 	title: string;
@@ -16,7 +17,7 @@ export const MetricBox: FC<Props> = ({ title, metric }) => {
 };
 
 const Container = styled.div`
-	background-image: url('img/pg9-10/dashboard_frame.png');
+	background-image: url('${getBaseUrl()}/img/pg9-10/dashboard_frame.png');
 	background-size: contain;
 	background-repeat: no-repeat;
 	max-width: 400px;

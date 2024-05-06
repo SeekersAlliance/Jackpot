@@ -4,6 +4,7 @@ import FaucetBtn from 'components/FaucetBtn';
 import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
+import { getBaseUrl } from 'utils/helper';
 
 export const HomeScreen: FC = () => {
 	return (
@@ -16,7 +17,9 @@ export const HomeScreen: FC = () => {
 						<FaucetBtn>Get 1000 TestUSD</FaucetBtn>
 					</BtnGroup>
 					<MainContent>
-						<img src="img/pg1-2/buy_cards_banner.png" />
+						<img
+							src={`${getBaseUrl()}/img/pg1-2/buy_cards_banner.png`}
+						/>
 						<MainBtnGroup>
 							<MainBtn tag="10 TestUSD">BUY 1 CARD</MainBtn>
 							<MainBtn tag="100 TestUSD">
@@ -26,7 +29,9 @@ export const HomeScreen: FC = () => {
 					</MainContent>
 				</Content>
 			</Container>
-			<SeekersAllianceLogo src="img/pg1-2/seekers_alliance_logo.png" />
+			<SeekersAllianceLogo
+				src={`${getBaseUrl()}/img/pg1-2/seekers_alliance_logo.png`}
+			/>
 		</Fragment>
 	);
 };
