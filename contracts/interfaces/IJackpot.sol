@@ -12,6 +12,10 @@ interface IJackpot {
     event JackpotClaim(address indexed user, uint256 value);
     
     // Errors
+    error InvalidAddress();
+    error InvalidValue();
+    error InvalidAmount();
+    error NotCollectedCards();
 
     /** 
      * @notice Deposit from the user

@@ -26,7 +26,6 @@ contract Fomo3d is Ownable, IFomo3d{
     uint256 public totalValue;
     uint256 public valuePerAmount;
     uint32 public decimal;
-    // price of a pack 
     uint256 public price;
 
     constructor(
@@ -37,6 +36,7 @@ contract Fomo3d is Ownable, IFomo3d{
         paymentToken = ERC20(_basePaymentToken);
         decimal = paymentToken.decimals();
         historyNonce = 0;
+        // This _price is part of the price of a pack which is distributed to the fomo3d
         price = _price;
     }
 
