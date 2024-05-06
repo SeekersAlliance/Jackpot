@@ -69,8 +69,10 @@ contract Fomo3d is Ownable, IFomo3d{
 
     // @inheritdoc IFomo3d
     function getPredict(address _user, uint256 _amount) external view returns (uint256 value){
+        if(_user == address(0)) revert InvalidAddress();
         uint256 userAmount = amount[_user] + _amount;
-        uint256 ratio = (userAmount*(10**decimal))/totalAmount;
+        if(totalAmount+_amount == 0) return 0;
+        uint256 ratio = (userAmount*(10**decimal))/(totalAmount+_amount);
         return  (ratio * price)/ (10**decimal);
     }
     // @inheritdoc IFomo3d
