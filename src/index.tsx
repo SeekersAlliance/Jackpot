@@ -3,23 +3,30 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import DashboardScreen from 'screens/Dashboard';
 import HomeScreen from 'screens/Home';
 import InventoryScreen from 'screens/Inventory';
+import { getBaseUrl } from 'utils/helper';
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+	[
+		{
+			path: '/',
+			element: <HomeScreen />,
+		},
+		{
+			path: '/inventory',
+			element: <InventoryScreen />,
+		},
+		{
+			path: '/dashboard',
+			element: <DashboardScreen />,
+		},
+	],
 	{
-		path: '/',
-		element: <HomeScreen />,
+		basename: getBaseUrl() || '/',
 	},
-	{
-		path: '/inventory',
-		element: <InventoryScreen />,
-	},
-	{
-		path: '/dashboard',
-		element: <DashboardScreen />,
-	},
-]);
+);
 
 export const App: FC = () => {
+	console.log('<<<<');
 	return <RouterProvider router={router} />;
 };
 
