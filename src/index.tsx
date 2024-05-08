@@ -26,7 +26,6 @@ export const router = createBrowserRouter(
 );
 
 export const App: FC = () => {
-	console.log('<<<<');
 	return <RouterProvider router={router} />;
 };
 

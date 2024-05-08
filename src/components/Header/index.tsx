@@ -1,7 +1,11 @@
 import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getBaseUrl } from 'utils/helper';
+import { connectWallet, getAccount } from 'utils/chain';
+import { formatAddress, getBaseUrl } from 'utils/helper';
+import { appState } from 'utils/state';
+import { useSnapshot } from 'valtio';
 
 const tabs = [
 	{
@@ -24,6 +28,17 @@ const tabs = [
 export const Header: FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
+	const { address } = useSnapshot(appState);
+	const [focus, setFocus] = useState(false);
+	const [connected, setConnected] = useState(!!address);
+
+	useEffect(() => {
+		getAccount();
+	}, []);
+
+	useEffect(() => {
+		setConnected(!!address);
+	}, [address]);
 
 	return (
 		<Container>
@@ -48,13 +63,25 @@ export const Header: FC = () => {
 				<Jackpot src={`${getBaseUrl()}/img/pg1-2/jackpot.png`} />
 			</div>
 			<div style={{ flex: 1, justifyContent: 'flex-end' }}>
-				<ConnectWallet
-					onClick={() => {
-						console.log('coming soon');
-					}}
-				>
-					Connect Wallet
-				</ConnectWallet>
+				{!connected ? (
+					<ConnectWallet
+						$focus={focus}
+						onMouseDown={() => setFocus(true)}
+						onMouseUp={() => setFocus(false)}
+						onClick={connectWallet}
+					>
+						Connect Wallet
+					</ConnectWallet>
+				) : (
+					<div>
+						<WalletGroup>
+							<div>
+								<div />
+							</div>
+							<div>{formatAddress(address)}</div>
+						</WalletGroup>
+					</div>
+				)}
 			</div>
 		</Container>
 	);
@@ -73,7 +100,8 @@ const Container = styled.div`
 
 const NavigateGroup = styled.div`
 	gap: 15px;
-	align-self: center;
+	align-self: flex-start;
+	margin-top: 15px;
 
 	img {
 		max-width: 100px;
@@ -88,7 +116,8 @@ const Jackpot = styled.img`
 	object-fit: contain;
 `;
 
-const ConnectWallet = styled.div`
+const ConnectWallet = styled.div<{ $focus: boolean }>`
+	margin-top: 15px;
 	width: 250px;
 	aspect-ratio: 328 / 146;
 	align-items: center;
@@ -100,7 +129,44 @@ const ConnectWallet = styled.div`
 	font-size: 25px;
 	font-weight: 700;
 	font-family: 'TitilliumWeb';
-	align-self: center;
+	align-self: flex-start;
 	user-select: none;
 	cursor: pointer;
+	opacity: ${({ $focus }) => ($focus ? '0.5' : '1')};
+	position: relative;
+	transform: translateY(-30px);
+
+	&:hover {
+		background-image: url('${getBaseUrl()}/img/buttons/connect_hover.png');
+	}
+`;
+
+const WalletGroup = styled.div`
+	margin-top: 15px;
+	gap: 15px;
+	align-self: flex-start;
+
+	div {
+		background-color: #444;
+		border-radius: 8px;
+		flex: 1;
+		color: #fff;
+		width: 160px;
+		align-items: center;
+		justify-content: center;
+		font-weight: 600;
+		font-size: 20px;
+		padding: 3px 15px;
+
+		&:nth-child(1) {
+			div {
+				padding: 0;
+				background-image: url('${getBaseUrl()}/img/pg1-2/opbnb_logo.png');
+				background-size: contain;
+				background-repeat: no-repeat;
+				width: 130px;
+				aspect-ratio: 192 / 37;
+			}
+		}
+	}
 `;
