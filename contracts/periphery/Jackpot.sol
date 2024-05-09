@@ -27,26 +27,19 @@ import "../interfaces/IJackpot.sol";
         collectedCardsID = _collectedCardsID;
     }
 
-    // @inheritdoc IJackpot
-    function deposit(address _user, uint256 _value, uint256 _amount) external override onlyOwner{
-        if(_user == address(0)) revert InvalidAddress();
-        if(_value == 0) revert InvalidValue();
-        if(_amount == 0) revert InvalidAmount();
-        totalValue += _value;
-    }
 
     // @inheritdoc IJackpot
     function claim() external override{
         address sender = msg.sender;
         if(!_checkCollectedCards(sender)) revert NotCollectedCards();
         _burn(sender);
-        paymentToken.transfer(_user, totalValue);
+        paymentToken.transfer(sender, _getTotalValue());
         emit JackpotClaim(sender, totalValue);
     }
 
     // @inheritdoc IJackpot
     function getTotalValue() external view override returns (uint256 value){
-        return totalValue;
+        return _getTotalValue();
     }
 
     // @inheritdoc IJackpot
@@ -76,5 +69,8 @@ import "../interfaces/IJackpot.sol";
             amounts[i] = 1;
         }
         myNFT.burnBatch(_user, ids, amounts);
+    }
+    function _getTotalValue() internal view returns (uint256 value){
+        return paymentToken.balanceOf(address(this));
     }
 }

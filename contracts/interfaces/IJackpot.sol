@@ -24,7 +24,7 @@ interface IJackpot {
      * @param _value The value of the deposit
      * @param _amount The amount of the deposit
      */
-    function deposit(address _user, uint256 _value, uint256 _amount) external;
+    //function deposit(address _user, uint256 _value, uint256 _amount) external;
 
     /**
      * @notice Try to claim the value from this jackpot if the sender has the right to claim

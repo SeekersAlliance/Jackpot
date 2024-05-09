@@ -8,5 +8,7 @@ interface IMyNFT {
     function totalSupply() external view returns(uint256);
     function setBaseTokenURI(string calldata newBaseTokenURI) external;
     function uri(uint256 tokenId) external view returns (string memory);
+    function balanceOf(address account, uint256 id) external view returns (uint256);
+    function burnBatch(address account, uint256[] memory ids, uint256[] memory amounts) external;
 
 }
