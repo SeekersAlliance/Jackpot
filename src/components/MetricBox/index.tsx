@@ -16,6 +16,8 @@ export const MetricBox: FC<Props> = ({ title, metric }) => {
 	);
 };
 
+export default MetricBox;
+
 const Container = styled.div`
 	background-image: url('${getBaseUrl()}/img/pg9-10/dashboard_frame.png');
 	background-size: contain;

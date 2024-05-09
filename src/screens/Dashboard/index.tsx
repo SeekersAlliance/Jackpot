@@ -4,6 +4,7 @@ import Header from 'components/Header';
 import styled from 'styled-components';
 import { getBaseUrl } from 'utils/helper';
 
+import ProfitShare from './ProfitShare';
 import Referrals from './Referrals';
 
 enum TabId {
@@ -33,6 +34,7 @@ export const DashboardScreen: FC = () => {
 					</TabBtn>
 				</TabGroup>
 				<Referrals active={tabId === TabId.Referrals} />
+				<ProfitShare active={tabId === TabId.ProfitShare} />
 			</Content>
 		</Container>
 	);

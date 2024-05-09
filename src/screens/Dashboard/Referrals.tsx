@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { useState } from 'react';
-import { MetricBox } from 'components/MetricBox';
+import MetricBox from 'components/MetricBox';
 import styled from 'styled-components';
 import { getBaseUrl } from 'utils/helper';
 
