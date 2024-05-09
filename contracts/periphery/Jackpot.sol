@@ -18,7 +18,6 @@ import "../interfaces/IJackpot.sol";
     ERC20 public paymentToken;
     IMyNFT public myNFT;
 
-    uint256 public totalValue;
     uint32[] public collectedCardsID;
 
     constructor(address _initialAdmin, address _paymentToken, address _myNFT, uint32[] memory _collectedCardsID) Ownable(_initialAdmin){
@@ -34,7 +33,7 @@ import "../interfaces/IJackpot.sol";
         if(!_checkCollectedCards(sender)) revert NotCollectedCards();
         _burn(sender);
         paymentToken.transfer(sender, _getTotalValue());
-        emit JackpotClaim(sender, totalValue);
+        emit JackpotClaim(sender, _getTotalValue());
     }
 
     // @inheritdoc IJackpot
