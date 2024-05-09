@@ -131,6 +131,7 @@ contract HierarchicalDrawing is AccessControl, IHierarchicalDrawing {
     function fulfillRandomWords(uint256 _requestId, uint256[] calldata _randomWords) external onlyRole(FULFILLER_ROLE) {
         RequestInfo storage request = requestsInfo[_requestId];
         if(!request.exists) revert RequestNotExist(_requestId);
+        if(request.fulfilled) revert RequestAlreadyFulfilled(_requestId);
         request.fulfilled = true;
         request.randomWords = _randomWords;
         uint256[] memory _ids = execRequest(_requestId);
