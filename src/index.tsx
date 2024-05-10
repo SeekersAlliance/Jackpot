@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import DashboardScreen from 'screens/Dashboard';
 import HomeScreen from 'screens/Home';
 import InventoryScreen from 'screens/Inventory';
+import ResultScreen from 'screens/Result';
 import { getBaseUrl } from 'utils/helper';
 
 export const router = createBrowserRouter(
@@ -18,6 +19,10 @@ export const router = createBrowserRouter(
 		{
 			path: '/dashboard',
 			element: <DashboardScreen />,
+		},
+		{
+			path: '/result/:itemType',
+			element: <ResultScreen />,
 		},
 	],
 	{

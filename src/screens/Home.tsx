@@ -1,12 +1,21 @@
 import type { FC } from 'react';
 import { Fragment } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FaucetBtn from 'components/FaucetBtn';
 import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
 import { getBaseUrl } from 'utils/helper';
+import { appState } from 'utils/state';
+
+const mockCards = {
+	single: [1],
+	pack: [4, 2, 3, 1, 5, 4, 2, 3, 1, 5, 3],
+};
 
 export const HomeScreen: FC = () => {
+	const navigate = useNavigate();
+
 	return (
 		<Fragment>
 			<Container>
@@ -21,8 +30,22 @@ export const HomeScreen: FC = () => {
 							src={`${getBaseUrl()}/img/pg1-2/buy_cards_banner.png`}
 						/>
 						<MainBtnGroup>
-							<MainBtn tag="10 TestUSD">BUY 1 CARD</MainBtn>
-							<MainBtn tag="100 TestUSD">
+							<MainBtn
+								tag="10 TestUSD"
+								onClick={() => {
+									appState.cardResult = mockCards.single;
+									navigate('/result/single');
+								}}
+							>
+								BUY 1 CARD
+							</MainBtn>
+							<MainBtn
+								tag="100 TestUSD"
+								onClick={() => {
+									appState.cardResult = mockCards.pack;
+									navigate('/result/pack');
+								}}
+							>
 								BUY 10 GET 1 FREE!
 							</MainBtn>
 						</MainBtnGroup>

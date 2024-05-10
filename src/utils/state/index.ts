@@ -1,5 +1,10 @@
 import { proxy } from 'valtio';
 
-export const appState = proxy({
+interface AppState {
+	address: string;
+	cardResult?: number[];
+}
+
+export const appState = proxy<AppState>({
 	address: '',
 });
