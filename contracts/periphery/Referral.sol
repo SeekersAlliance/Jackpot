@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity = 0.8.23;
 
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IReferral.sol";
+import "./Register.sol";
 
 /** 
  * @title 
@@ -10,14 +10,19 @@ import "../interfaces/IReferral.sol";
  * @notice
  */
 
-contract Referral is Ownable, IReferral{
+contract Referral is  IReferral{
+
+        Register public register;
+
         mapping (address => ReferralInfo[]) public historyReferralInfo;
 
-        constructor(address _initialAdmin) Ownable(_initialAdmin){
+        constructor(address _register){
+            register = Register(_register);
         }
 
         // @inheritdoc IReferral
-        function deposit(address _sender, address _referral, uint256 _value, uint32 _amount) external onlyOwner{
+        function deposit(address _sender, address _referral, uint256 _value, uint32 _amount) external{
+            register.checkRole(register.MARKET(), msg.sender);
             if(_sender == address(0)) revert InvalidAddress();
             if(_referral == address(0)) revert InvalidAddress();
             if(_value == 0) revert InvalidValue();

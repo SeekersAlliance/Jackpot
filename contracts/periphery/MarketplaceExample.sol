@@ -8,6 +8,7 @@ import "../interfaces/IFomo3d.sol";
 import "../interfaces/IReferral.sol";
 import "../interfaces/IJackpot.sol";
 import "../interfaces/IMarketplace.sol";
+import "./Register.sol";
 
 
 contract MarketplaceReceiver is Ownable, IMarketplace {
@@ -16,29 +17,15 @@ contract MarketplaceReceiver is Ownable, IMarketplace {
     mapping (uint32 => PackInfo) public packsInfo;
 
     ERC20 public paymentToken;
-    address public fomo3dContract;
-    address public referralContract;
-    address public jackpotContract;
-    IHierarchicalDrawing public drawContract;
+    Register public register;
     
     constructor(
         address _basePaymentToken,
-        address _initialAdmin
+        address _initialAdmin,
+        address _register
     ) Ownable(_initialAdmin){
         paymentToken = ERC20(_basePaymentToken);
-    }
-    
-    function setDrawContract(address _drawContract) public onlyOwner {
-        drawContract = IHierarchicalDrawing(_drawContract);
-    }
-    function setFomo3dContract(address _fomo3dContract) public onlyOwner {
-        fomo3dContract = _fomo3dContract;
-    }
-    function setReferralContract(address _referralContract) public onlyOwner {
-        referralContract = _referralContract;
-    }
-    function setJackpotContract(address _jackpotContract) public onlyOwner {
-        jackpotContract = _jackpotContract;
+        register = Register(_register);
     }
 
 
@@ -78,25 +65,20 @@ contract MarketplaceReceiver is Ownable, IMarketplace {
             total += totalAmounts[i];
         }
         // Transfer tokens from buyer to fomo3d, jackpot and referral contracts respectively, 10% to fomo3d, 80% to jackpot and 10% to referral
-        paymentToken.transferFrom(purchaser, fomo3dContract, totalPayment/10);
-        IFomo3d(fomo3dContract).deposit(purchaser, totalPayment/10, total);
+
+        paymentToken.transferFrom(purchaser, register.getContract(register.FOMO3D()), totalPayment/10);
+        IFomo3d(register.getContract(register.FOMO3D())).deposit(purchaser, totalPayment/10, total);
        
-        paymentToken.transferFrom(purchaser, jackpotContract, totalPayment*8/10);
+        paymentToken.transferFrom(purchaser, register.getContract(register.JACKPOT()), totalPayment*8/10);
 
         paymentToken.transferFrom(purchaser, _referral, totalPayment/10);
-        IReferral(referralContract).deposit(purchaser, _referral, totalPayment/10, total);
+        IReferral(register.getContract(register.REFERRAL())).deposit(purchaser, _referral, totalPayment/10, total);
 
 
         // Call the sendRequest function from the draw contract
-        drawContract.sendRequest(purchaser, packsInfo[_packID].poolsID, totalAmounts); 
+        IHierarchicalDrawing(register.getContract(register.DRAW())).sendRequest(purchaser, packsInfo[_packID].poolsID, totalAmounts); 
         emit PackPurchased(purchaser, _packAmounts);
     }
-
-    // @inheritdoc IMarketplaceReceiver
-    function setCollectedCardsID(uint32[] memory _cardsID) external override {
-        IJackpot(jackpotContract).setCollectedCardsID(_cardsID);
-    }
-
     
     // Function for the owner to withdraw funds from the contract
     function withdrawFunds(address _token, uint256 _amount) external onlyOwner {

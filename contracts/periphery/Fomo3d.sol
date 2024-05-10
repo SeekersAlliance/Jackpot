@@ -2,8 +2,8 @@
 pragma solidity = 0.8.23;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IFomo3d.sol";
+import "./Register.sol";
 
 /** 
  * @title 
@@ -11,9 +11,10 @@ import "../interfaces/IFomo3d.sol";
  * @notice
  */
 
-contract Fomo3d is Ownable, IFomo3d{
+contract Fomo3d is IFomo3d{
 
     ERC20 public paymentToken;
+    Register public register;
 
     mapping (address => uint256) public amount;
     mapping (address => uint256) public mask;
@@ -27,21 +28,24 @@ contract Fomo3d is Ownable, IFomo3d{
     uint256 public valuePerAmount;
     uint32 public decimal;
     uint256 public price;
+    
 
     constructor(
         address _basePaymentToken,
-        address _initialAdmin,
+        address _register,
         uint256 _price
-    ) Ownable(_initialAdmin){
+    ){
         paymentToken = ERC20(_basePaymentToken);
         decimal = paymentToken.decimals();
         historyNonce = 0;
         // This _price is part of the price of a pack which is distributed to the fomo3d
         price = _price;
+        register = Register(_register);
     }
 
     // @inheritdoc IFomo3d
-    function deposit(address _user, uint256 _value, uint256 _amount) external onlyOwner{
+    function deposit(address _user, uint256 _value, uint256 _amount) external override{
+        register.checkRole(register.MARKET(), msg.sender);
         if(_user == address(0)) revert InvalidAddress();
         if(_value == 0) revert InvalidValue();
         if(_amount == 0) revert InvalidAmount();

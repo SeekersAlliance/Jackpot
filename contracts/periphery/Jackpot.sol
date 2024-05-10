@@ -6,7 +6,6 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IMyNFT.sol";
 import "../interfaces/IJackpot.sol";
 
-
 /** 
  * @title 
  * @author SeekersAlliance
@@ -20,7 +19,12 @@ import "../interfaces/IJackpot.sol";
 
     uint32[] public collectedCardsID;
 
-    constructor(address _initialAdmin, address _paymentToken, address _myNFT, uint32[] memory _collectedCardsID) Ownable(_initialAdmin){
+    constructor(
+        address _initialAdmin,
+        address _paymentToken,
+        address _myNFT,
+        uint32[] memory _collectedCardsID
+    ) Ownable(_initialAdmin){
         paymentToken = ERC20(_paymentToken);
         myNFT = IMyNFT(_myNFT);
         collectedCardsID = _collectedCardsID;

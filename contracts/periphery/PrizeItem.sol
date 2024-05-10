@@ -6,15 +6,18 @@ import {ERC1155} from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import {ERC1155Supply} from "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import {ERC1155Burnable} from "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
+import "./Register.sol";
 
 contract PrizeItems is ERC1155, ERC1155Supply, AccessControl, ERC1155Burnable {
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     string private _baseTokenURI;
+    Register public register;
 
-    constructor(address _initialAdmin, string memory baseTokenURI) ERC1155("") {
+    constructor(address _initialAdmin, address _register, string memory baseTokenURI) ERC1155(baseTokenURI) {
         _grantRole(DEFAULT_ADMIN_ROLE, _initialAdmin);
         _baseTokenURI = baseTokenURI;
+        register = Register(_register);
     }
     
     function setBaseTokenURI(string calldata newBaseTokenURI) external onlyRole(DEFAULT_ADMIN_ROLE) {
@@ -55,7 +58,8 @@ contract PrizeItems is ERC1155, ERC1155Supply, AccessControl, ERC1155Burnable {
         uint256 _id, 
         uint256 _amount,
         bytes memory data
-    ) onlyRole(MINTER_ROLE) external {
+    ) external {
+        register.checkRole(register.DRAW(), msg.sender);
         _mint(_account, _id, _amount, data);
     }
 
@@ -64,7 +68,8 @@ contract PrizeItems is ERC1155, ERC1155Supply, AccessControl, ERC1155Burnable {
         uint256[] memory _ids, 
         uint256[] memory _amounts,
         bytes memory data
-    ) external onlyRole(MINTER_ROLE) {
+    ) external{
+        register.checkRole(register.DRAW(), msg.sender);
         _mintBatch(_account, _ids, _amounts, data);
     }
 

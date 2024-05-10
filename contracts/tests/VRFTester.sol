@@ -4,9 +4,11 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "../interfaces/IHierarchicalDrawing.sol";
 import "../interfaces/IVRFManager.sol";
+import "../periphery/Register.sol";
 
 contract VRFManager is IVRFManager, AccessControl {    
     IHierarchicalDrawing public drawingContract;
+    Register public register;
 
     struct RequestStatus {
         bool fulfilled; // whether the request has been successfully fulfilled
@@ -23,26 +25,22 @@ contract VRFManager is IVRFManager, AccessControl {
     bytes32 public constant REQUESTER_ROLE = keccak256("REQUESTER_ROLE");
     
     constructor(
-        address _initialAdmin
-        ) {_grantRole(DEFAULT_ADMIN_ROLE, _initialAdmin);}
+        address _initialAdmin,
+        address _register
+        ){
+        _grantRole(DEFAULT_ADMIN_ROLE, _initialAdmin);
+        register = Register(_register);
+        }
 
     modifier onlyOwner() {
         require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "Restricted to admin.");
         _;
     }
 
-    modifier onlyRequester() {
-        require(hasRole(REQUESTER_ROLE, msg.sender), "Restricted to requesters.");
-        _;
-    }
-
-    function setDrawingContract(address _contract) external onlyOwner {
-        drawingContract = IHierarchicalDrawing(_contract);
-        _grantRole(REQUESTER_ROLE, _contract);
-    }
 
     // Takes request sender as the parameter.
-    function requestRandomWords(address _requester) external onlyRequester returns(uint256 requestId){
+    function requestRandomWords(address _requester) external  returns(uint256 requestId){
+        register.checkRole(register.DRAW(), msg.sender);
         requestId = uint256(keccak256(abi.encodePacked(_requester, block.timestamp)));
 
         s_requests[requestId] = RequestStatus({
@@ -65,6 +63,8 @@ contract VRFManager is IVRFManager, AccessControl {
         require(s_requests[_requestId].exists, "request not found");
         s_requests[_requestId].fulfilled = true;
         s_requests[_requestId].randomWords = _randomWords;
+
+        drawingContract = IHierarchicalDrawing(register.getContract(register.DRAW()));
         
         drawingContract.fulfillRandomWords(_requestId, _randomWords);
         emit RequestFulfilled(_requestId, _randomWords);

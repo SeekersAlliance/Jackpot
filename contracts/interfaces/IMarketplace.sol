@@ -29,10 +29,5 @@ interface IMarketplace{
     */
     function purchasePack(uint32 _packID, uint32 _packAmounts, address _referral) external;
 
-    /**
-     * @notice this function will call Jackpot contract to set the collected cards ID
-     * @notice Only the admin role can call this function
-     * @param _cardsID The cards ID
-     */
-    function setCollectedCardsID(uint32[] memory _cardsID) external;
+   
 }

@@ -62,7 +62,7 @@ interface IHierarchicalDrawing {
      * @notice Only admin role can call this function
      * @param _vrfGenerator address of vrf generator contract
      */
-    function setVRFGenerator(address _vrfGenerator) external;
+    //function setVRFGenerator(address _vrfGenerator) external;
 
     /** 
      * @notice set token pool

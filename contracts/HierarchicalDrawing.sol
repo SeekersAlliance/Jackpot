@@ -5,6 +5,7 @@ import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import "./interfaces/IHierarchicalDrawing.sol";
 import "./interfaces/IMyNFT.sol";
 import "./libraries/Sorting.sol";
+import "./periphery/Register.sol";
 
 /** 
  * @title Hierarchical drawing pools
@@ -20,12 +21,10 @@ contract HierarchicalDrawing is AccessControl, IHierarchicalDrawing {
     uint32 constant UINT32_MAX = type(uint32).max;
 
     IMyNFT public nftContract;
-    IVRFManager public vrfGenerator;
+    Register public register;
 
     bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
-    bytes32 public constant SELLER_ROLE = keccak256("SELLER_ROLE");
-    bytes32 public constant EXECUTOR_ROLE = keccak256("EXECUTOR_ROLE");
-    bytes32 public constant FULFILLER_ROLE = keccak256("FULFILLER_ROLE");
+    
 
     mapping (uint32 => UnitPoolInfo) public unitPoolsInfo;
     mapping (uint32 => DrawingPoolInfo) public drawingPoolsInfo;
@@ -41,22 +40,15 @@ contract HierarchicalDrawing is AccessControl, IHierarchicalDrawing {
 
     constructor(
         address _initialAdmin, 
+        address _register,
         address _nftContract
     ) {
         _grantRole(DEFAULT_ADMIN_ROLE, _initialAdmin);
         _grantRole(MANAGER_ROLE, _initialAdmin);
         nftContract = IMyNFT(_nftContract);
+        register = Register(_register);
     }
 
-    /// @inheritdoc IHierarchicalDrawing
-    function setVRFGenerator(address _vrfGenerator) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        if(hasRole(FULFILLER_ROLE, _vrfGenerator)) revert HasRoleAlready(_vrfGenerator, FULFILLER_ROLE);
-        if(address(vrfGenerator) != address(0)) {
-            revokeRole(FULFILLER_ROLE, address(vrfGenerator));
-        }
-        vrfGenerator = IVRFManager(_vrfGenerator);
-        grantRole(FULFILLER_ROLE, _vrfGenerator);
-    }
 
     /// @inheritdoc IHierarchicalDrawing
     function setTokenPool(uint256[] calldata _ids) external onlyRole(MANAGER_ROLE) {
@@ -112,8 +104,11 @@ contract HierarchicalDrawing is AccessControl, IHierarchicalDrawing {
     }
 
 
-    function sendRequest(address _user, uint32[] calldata _poolsID, uint32[] calldata _drawAmounts) external onlyRole(SELLER_ROLE) {
+    function sendRequest(address _user, uint32[] calldata _poolsID, uint32[] calldata _drawAmounts) external {
+        register.checkRole(register.MARKET(), msg.sender);
         address _requester = _user;
+
+        IVRFManager vrfGenerator = IVRFManager(register.getContract(register.VRF()));
 
         uint256 _requestId = vrfGenerator.requestRandomWords(_requester);
         RequestInfo storage request = requestsInfo[_requestId];
@@ -128,7 +123,8 @@ contract HierarchicalDrawing is AccessControl, IHierarchicalDrawing {
 
 
     /// @inheritdoc IHierarchicalDrawing
-    function fulfillRandomWords(uint256 _requestId, uint256[] calldata _randomWords) external onlyRole(FULFILLER_ROLE) {
+    function fulfillRandomWords(uint256 _requestId, uint256[] calldata _randomWords) external {
+        register.checkRole(register.VRF(), msg.sender);
         RequestInfo storage request = requestsInfo[_requestId];
         if(!request.exists) revert RequestNotExist(_requestId);
         if(request.fulfilled) revert RequestAlreadyFulfilled(_requestId);
@@ -197,7 +193,7 @@ contract HierarchicalDrawing is AccessControl, IHierarchicalDrawing {
     }
 
     /// @inheritdoc IHierarchicalDrawing
-    function execRequestBatch() external onlyRole(EXECUTOR_ROLE) {
+    function execRequestBatch() external {
         /* uint256 pending = pendingRequestNum();
         for(uint256 i; i<pending;i++) {
             execRequest();
