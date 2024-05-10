@@ -27,6 +27,7 @@ interface IHierarchicalDrawing {
     error DrwaingPoolNotExist(uint32);
     error DrawableNotEnough(address, uint32);
     error RequestNotExist(uint256);
+    error RequestAlreadyFulfilled(uint256);
     error RequestNotFulfilled(uint256);
     error NoPendingRequest();
     error HasRoleAlready(address, bytes32);
