@@ -3,23 +3,30 @@ import { useState } from 'react';
 import MetricBox from 'components/MetricBox';
 import styled from 'styled-components';
 import { getBaseUrl } from 'utils/helper';
+import { appState } from 'utils/state';
+import { useSnapshot } from 'valtio';
 
 interface Props {
 	active?: boolean;
 }
+const domain = window.location.origin;
 
 export const Referrals: FC<Props> = ({ active = true }) => {
 	const [copyClick, setCopyClick] = useState(false);
-	const [input, setInput] = useState('');
+	const { address } = useSnapshot(appState);
+	const referralLink = `${domain}/referred/${address}`;
 
 	return (
 		<Container $active={active}>
 			<ReferralBox>
 				<h3>Your Referral Link:</h3>
 				<ReferralInput>
-					<input value={input} readOnly />
+					<input value={referralLink} readOnly />
 					<CopyBtn
 						$focus={copyClick}
+						onClick={() =>
+							navigator.clipboard.writeText(referralLink)
+						}
 						onMouseDown={() => setCopyClick(true)}
 						onMouseUp={() => setCopyClick(false)}
 					/>
