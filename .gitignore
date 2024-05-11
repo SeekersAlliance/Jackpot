@@ -10,3 +10,5 @@ assets/favicon.ico
 assets/style.css
 
 .vscode
+.sst
+.env*
