@@ -5,8 +5,10 @@ import FaucetBtn from 'components/FaucetBtn';
 import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
+import { requestFaucet } from 'utils/faucet';
 import { getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
+import { useSnapshot } from 'valtio';
 
 const mockCards = {
 	single: [1],
@@ -15,6 +17,7 @@ const mockCards = {
 
 export const HomeScreen: FC = () => {
 	const navigate = useNavigate();
+	const { address } = useSnapshot(appState);
 
 	return (
 		<Fragment>
@@ -22,8 +25,18 @@ export const HomeScreen: FC = () => {
 				<Header />
 				<Content>
 					<BtnGroup>
-						<FaucetBtn>TBNB Faucet</FaucetBtn>
-						<FaucetBtn>Get 1000 TestUSD</FaucetBtn>
+						<FaucetBtn
+							onClick={() =>
+								requestFaucet('native', address, 0.01)
+							}
+						>
+							TBNB Faucet
+						</FaucetBtn>
+						<FaucetBtn
+							onClick={() => requestFaucet('usdc', address, 1000)}
+						>
+							Get 1000 TestUSD
+						</FaucetBtn>
 					</BtnGroup>
 					<MainContent>
 						<img
