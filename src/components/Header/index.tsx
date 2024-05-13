@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { connectWallet, getAccount } from 'utils/chain';
+import { connectWallet, getAccount, handleAccountChanged } from 'utils/chain';
 import { formatAddress, getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
@@ -34,6 +34,10 @@ export const Header: FC = () => {
 
 	useEffect(() => {
 		getAccount();
+		window.ethereum.on('accountsChanged', handleAccountChanged);
+
+		return () =>
+			window.ethereum.on('accountsChanged', handleAccountChanged);
 	}, []);
 
 	useEffect(() => {

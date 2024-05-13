@@ -44,15 +44,19 @@ export default CardGroup;
 const Container = styled.div`
 	flex-direction: column;
 	justify-content: center;
+	flex: 1;
+	align-self: center;
+	max-height: 75vh;
 `;
 
 const SingleCard = styled.img`
-	max-height: 600px;
+	max-height: 80%;
 `;
 
 const CardRow = styled.div`
 	gap: 10px;
 	justify-content: center;
+	max-height: 45%;
 
 	&.row-two {
 		transform: translateY(-30px);
@@ -60,5 +64,5 @@ const CardRow = styled.div`
 `;
 
 const SmallCard = styled.img`
-	max-height: 300px;
+	max-height: 100%;
 `;

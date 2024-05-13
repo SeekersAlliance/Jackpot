@@ -30,7 +30,6 @@ export const connectWallet = async () => {
 		const accounts = await window.ethereum.request({
 			method: 'eth_requestAccounts',
 		});
-		window.ethereum.on('accountsChanged', handleAccountChanged);
 
 		if (accounts.length > 0) {
 			appState.address = accounts[0];
@@ -55,6 +54,6 @@ export const ensureNetworkTarget = async () => {
 	});
 };
 
-const handleAccountChanged = (accounts: string[]) => {
+export const handleAccountChanged = (accounts: string[]) => {
 	appState.address = accounts[0];
 };

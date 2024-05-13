@@ -52,7 +52,7 @@ export const ResultScreen: FC = () => {
 					</TransactionGroup>
 					<Title>{title}</Title>
 					<CardGroup cardIds={cardResult as number[]} />
-					<div>
+					<BtnGroup>
 						<MainBtn
 							onClick={() => navigate('/', { replace: true })}
 						>
@@ -65,7 +65,7 @@ export const ResultScreen: FC = () => {
 						>
 							SEE INVENTORY
 						</MainBtn>
-					</div>
+					</BtnGroup>
 					<SeekersAllianceLogo
 						src={`${getBaseUrl()}/img/pg1-2/seekers_alliance_logo.png`}
 					/>
@@ -141,6 +141,10 @@ const Title = styled.h1`
 	font-size: 40px
 	font-weight: 700;
 	color: #fff;
+`;
+
+const BtnGroup = styled.div`
+	padding-bottom: 30px;
 `;
 
 const SeekersAllianceLogo = styled.img`
