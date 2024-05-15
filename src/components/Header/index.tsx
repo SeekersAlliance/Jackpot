@@ -65,6 +65,7 @@ export const Header: FC = () => {
 			</div>
 			<div style={{ flex: 1, justifyContent: 'center' }}>
 				<Jackpot src={`${getBaseUrl()}/img/pg1-2/jackpot.png`} />
+				<JackpotReward>$37,000</JackpotReward>
 			</div>
 			<div style={{ flex: 1, justifyContent: 'flex-end' }}>
 				{!connected ? (
@@ -118,6 +119,16 @@ const Jackpot = styled.img`
 	aspect-ratio: 827 / 217;
 	height: auto;
 	object-fit: contain;
+`;
+
+const JackpotReward = styled.span`
+	position: absolute;
+	top: 40px;
+	left: 50%;
+	transform: translateX(-57%);
+	font-size: 36px;
+	font-weight: 700;
+	color: #fff;
 `;
 
 const ConnectWallet = styled.div<{ $focus: boolean }>`
