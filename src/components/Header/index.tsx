@@ -34,10 +34,10 @@ export const Header: FC = () => {
 
 	useEffect(() => {
 		getAccount();
-		window.ethereum.on('accountsChanged', handleAccountChanged);
+		window.ethereum?.on('accountsChanged', handleAccountChanged);
 
 		return () =>
-			window.ethereum.on('accountsChanged', handleAccountChanged);
+			window.ethereum?.on('accountsChanged', handleAccountChanged);
 	}, []);
 
 	useEffect(() => {
