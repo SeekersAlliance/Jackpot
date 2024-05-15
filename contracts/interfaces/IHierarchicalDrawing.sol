@@ -13,7 +13,7 @@ interface IHierarchicalDrawing {
     event SetTokenMaxAmount(uint32[] maxAmounts);
     event SetUnitPool(uint32 unitPoolID);
     event SetDrawingPool(uint32 drawingPoolID);
-    event RequestSent(uint256 requestId, address _requester);
+    event RequestSent(uint256 indexed requestId, address _requester);
     event RequestFulfilled(uint256 indexed requestId, uint256[] randomWords);
     event RequestCompleted(uint256 indexed requestId, address indexed requester, uint256[] ids);
     

@@ -1,0 +1,715 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "",
+			"opcodes": "",
+			"sourceMap": ""
+		},
+		"gasEstimates": null,
+		"methodIdentifiers": {
+			"execRequestBatch()": "8487a06a",
+			"fulfillRandomWords(uint256,uint256[])": "38ba4614",
+			"getExistedDrawingPool()": "b749ea83",
+			"getExistedUnitPool()": "2714795f",
+			"getLastRequestId()": "19c2b4c3",
+			"getPoolInfo(uint32)": "b670ed52",
+			"getRequestInfo(uint256)": "0b816045",
+			"getReuqestQueue()": "39da9fb8",
+			"getTokenInfo(uint256)": "8c7a63ae",
+			"getTokenMaxAmounts()": "3c15ecf4",
+			"getTokenPoolInfo()": "d7b6453f",
+			"getTokenRemainings()": "f36b4b58",
+			"getUnitPoolInfo(uint32)": "f3ebc985",
+			"pendingRequestNum()": "d2b0022f",
+			"sendRequest(address,uint32[],uint32[])": "7c6ff2da",
+			"setDrawingPool(uint32,uint32[],uint32[])": "793822f8",
+			"setTokenMaxAmount(uint32[])": "1a75b3ed",
+			"setTokenPool(uint256[])": "5a1c7c50",
+			"setUnitPool(uint32,uint32[])": "5b94a71b"
+		}
+	},
+	"abi": [
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				},
+				{
+					"internalType": "uint32",
+					"name": "",
+					"type": "uint32"
+				}
+			],
+			"name": "DrawableNotEnough",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "",
+					"type": "uint32"
+				}
+			],
+			"name": "DrawingPoolExisted",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "",
+					"type": "uint32"
+				}
+			],
+			"name": "DrwaingPoolNotExist",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "EmptyIDs",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "",
+					"type": "address"
+				},
+				{
+					"internalType": "bytes32",
+					"name": "",
+					"type": "bytes32"
+				}
+			],
+			"name": "HasRoleAlready",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "LengthNotMatch",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "NoPendingRequest",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "RequestAlreadyFulfilled",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "RequestNotExist",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "RequestNotFulfilled",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "TokenExisted",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "TokenNotExist",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "",
+					"type": "uint32"
+				}
+			],
+			"name": "UnitPoolExisted",
+			"type": "error"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "",
+					"type": "uint32"
+				}
+			],
+			"name": "UnitPoolNotExist",
+			"type": "error"
+		},
+		{
+			"inputs": [],
+			"name": "ZeroAmount",
+			"type": "error"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "requester",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256[]",
+					"name": "ids",
+					"type": "uint256[]"
+				}
+			],
+			"name": "RequestCompleted",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256[]",
+					"name": "randomWords",
+					"type": "uint256[]"
+				}
+			],
+			"name": "RequestFulfilled",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "address",
+					"name": "_requester",
+					"type": "address"
+				}
+			],
+			"name": "RequestSent",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint32",
+					"name": "drawingPoolID",
+					"type": "uint32"
+				}
+			],
+			"name": "SetDrawingPool",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint32[]",
+					"name": "maxAmounts",
+					"type": "uint32[]"
+				}
+			],
+			"name": "SetTokenMaxAmount",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint256[]",
+					"name": "ids",
+					"type": "uint256[]"
+				}
+			],
+			"name": "SetTokenPool",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"internalType": "uint32",
+					"name": "unitPoolID",
+					"type": "uint32"
+				}
+			],
+			"name": "SetUnitPool",
+			"type": "event"
+		},
+		{
+			"inputs": [],
+			"name": "execRequestBatch",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_requestId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256[]",
+					"name": "_randomWords",
+					"type": "uint256[]"
+				}
+			],
+			"name": "fulfillRandomWords",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getExistedDrawingPool",
+			"outputs": [
+				{
+					"internalType": "uint32[]",
+					"name": "drawingPools",
+					"type": "uint32[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getExistedUnitPool",
+			"outputs": [
+				{
+					"internalType": "uint32[]",
+					"name": "unitPools",
+					"type": "uint32[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getLastRequestId",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "requestId",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "_poolID",
+					"type": "uint32"
+				}
+			],
+			"name": "getPoolInfo",
+			"outputs": [
+				{
+					"internalType": "uint32[]",
+					"name": "unitPools",
+					"type": "uint32[]"
+				},
+				{
+					"internalType": "uint32[]",
+					"name": "probs",
+					"type": "uint32[]"
+				},
+				{
+					"internalType": "uint32[]",
+					"name": "accumulatedProbs",
+					"type": "uint32[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_requestId",
+					"type": "uint256"
+				}
+			],
+			"name": "getRequestInfo",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "bool",
+							"name": "exists",
+							"type": "bool"
+						},
+						{
+							"internalType": "bool",
+							"name": "fulfilled",
+							"type": "bool"
+						},
+						{
+							"internalType": "bool",
+							"name": "completed",
+							"type": "bool"
+						},
+						{
+							"internalType": "address",
+							"name": "requestSender",
+							"type": "address"
+						},
+						{
+							"internalType": "uint32[]",
+							"name": "poolsID",
+							"type": "uint32[]"
+						},
+						{
+							"internalType": "uint32[]",
+							"name": "amounts",
+							"type": "uint32[]"
+						},
+						{
+							"internalType": "uint256[]",
+							"name": "randomWords",
+							"type": "uint256[]"
+						}
+					],
+					"internalType": "struct IHierarchicalDrawing.RequestInfo",
+					"name": "",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getReuqestQueue",
+			"outputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "queue",
+					"type": "uint256[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "getTokenInfo",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "existed",
+					"type": "bool"
+				},
+				{
+					"internalType": "uint256",
+					"name": "index",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint32",
+					"name": "maxAmount",
+					"type": "uint32"
+				},
+				{
+					"internalType": "uint32",
+					"name": "remaining",
+					"type": "uint32"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getTokenMaxAmounts",
+			"outputs": [
+				{
+					"internalType": "uint32[]",
+					"name": "maxAmounts",
+					"type": "uint32[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getTokenPoolInfo",
+			"outputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "ids",
+					"type": "uint256[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getTokenRemainings",
+			"outputs": [
+				{
+					"internalType": "uint32[]",
+					"name": "remainings",
+					"type": "uint32[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "_unitID",
+					"type": "uint32"
+				}
+			],
+			"name": "getUnitPoolInfo",
+			"outputs": [
+				{
+					"internalType": "uint32[]",
+					"name": "probs",
+					"type": "uint32[]"
+				},
+				{
+					"components": [
+						{
+							"internalType": "uint256",
+							"name": "nums",
+							"type": "uint256"
+						},
+						{
+							"internalType": "uint256[]",
+							"name": "result",
+							"type": "uint256[]"
+						}
+					],
+					"internalType": "struct PackedArray.PackedArray32",
+					"name": "tree",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "pendingRequestNum",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "pending",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_user",
+					"type": "address"
+				},
+				{
+					"internalType": "uint32[]",
+					"name": "_poolsID",
+					"type": "uint32[]"
+				},
+				{
+					"internalType": "uint32[]",
+					"name": "_drawAmounts",
+					"type": "uint32[]"
+				}
+			],
+			"name": "sendRequest",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "_poolID",
+					"type": "uint32"
+				},
+				{
+					"internalType": "uint32[]",
+					"name": "_unitIDs",
+					"type": "uint32[]"
+				},
+				{
+					"internalType": "uint32[]",
+					"name": "_probs",
+					"type": "uint32[]"
+				}
+			],
+			"name": "setDrawingPool",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32[]",
+					"name": "_maxAmounts",
+					"type": "uint32[]"
+				}
+			],
+			"name": "setTokenMaxAmount",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "_ids",
+					"type": "uint256[]"
+				}
+			],
+			"name": "setTokenPool",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint32",
+					"name": "_unitID",
+					"type": "uint32"
+				},
+				{
+					"internalType": "uint32[]",
+					"name": "_probs",
+					"type": "uint32[]"
+				}
+			],
+			"name": "setUnitPool",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]
+}

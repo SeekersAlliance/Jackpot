@@ -1,0 +1,336 @@
+{
+	"compiler": {
+		"version": "0.8.23+commit.f704f362"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_register",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidAddress",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidAmount",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidValue",
+				"type": "error"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "referral",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint32",
+						"name": "amount",
+						"type": "uint32"
+					}
+				],
+				"name": "ReferralDeposit",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_sender",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_referral",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint32",
+						"name": "_amount",
+						"type": "uint32"
+					}
+				],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "getHistoryReferralInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "value",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint32",
+								"name": "amount",
+								"type": "uint32"
+							},
+							{
+								"internalType": "address",
+								"name": "from",
+								"type": "address"
+							}
+						],
+						"internalType": "struct IReferral.ReferralInfo[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "getTotalReferralInfo",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "value",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint32",
+								"name": "amount",
+								"type": "uint32"
+							},
+							{
+								"internalType": "uint32",
+								"name": "count",
+								"type": "uint32"
+							}
+						],
+						"internalType": "struct IReferral.TotalReferralInfo",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "historyReferralInfo",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint32",
+						"name": "amount",
+						"type": "uint32"
+					},
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "register",
+				"outputs": [
+					{
+						"internalType": "contract Register",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"author": "SeekersAlliance",
+			"kind": "dev",
+			"methods": {
+				"deposit(address,address,uint256,uint32)": {
+					"params": {
+						"_amount": "The amount of the deposit",
+						"_referral": "The referral address",
+						"_sender": "The sender address",
+						"_value": "The value of the deposit"
+					}
+				},
+				"getHistoryReferralInfo(address)": {
+					"params": {
+						"_user": "The user address"
+					}
+				},
+				"getTotalReferralInfo(address)": {
+					"params": {
+						"_user": "The user address  "
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"deposit(address,address,uint256,uint32)": {
+					"notice": "Deposit from the userOnly the admin role can call this function"
+				},
+				"getHistoryReferralInfo(address)": {
+					"notice": "Get the history of user's referral infoReturn a array of referral info of the user"
+				},
+				"getTotalReferralInfo(address)": {
+					"notice": "Get total referral info of the user"
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/periphery/Referral.sol": "Referral"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts/access/AccessControl.sol": {
+			"keccak256": "0xa0e92d42942f4f57c5be50568dac11e9d00c93efcb458026e18d2d9b9b2e7308",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://46326c0bb1e296b67185e81c918e0b40501b8b6386165855df0a3f3c634b6a80",
+				"dweb:/ipfs/QmTwyrDYtsxsk6pymJTK94PnEpzsmkpUxFuzEiakDopy4Z"
+			]
+		},
+		"@openzeppelin/contracts/access/IAccessControl.sol": {
+			"keccak256": "0xb6b36edd6a2999fd243ff226d6cbf84bd71af2432bbd0dfe19392996a1d9cb41",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1fd2f35495652e57e3f99bc6c510bc5f7dd398a176ea2e72d8ed730aebc6ca26",
+				"dweb:/ipfs/QmTQV6X4gkikTib49cho5iDX3JvSQbdsoEChoDwrk3CbbH"
+			]
+		},
+		"@openzeppelin/contracts/utils/Context.sol": {
+			"keccak256": "0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6a708e8a5bdb1011c2c381c9a5cfd8a9a956d7d0a9dc1bd8bcdaf52f76ef2f12",
+				"dweb:/ipfs/Qmax9WHBnVsZP46ZxEMNRQpLQnrdE4dK8LehML1Py8FowF"
+			]
+		},
+		"@openzeppelin/contracts/utils/introspection/ERC165.sol": {
+			"keccak256": "0x9e8778b14317ba9e256c30a76fd6c32b960af621987f56069e1e819c77c6a133",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://1777404f1dcd0fac188e55a288724ec3c67b45288e49cc64723e95e702b49ab8",
+				"dweb:/ipfs/QmZFdC626GButBApwDUvvTnUzdinevC3B24d7yyh57XkiA"
+			]
+		},
+		"@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+			"keccak256": "0x4296879f55019b23e135000eb36896057e7101fb7fb859c5ef690cf14643757b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://87b3541437c8c443ccd36795e56a338ed12855eec17f8da624511b8d1a7e14df",
+				"dweb:/ipfs/QmeJQCtZrQjtJLr6u7ZHWeH3pBnjtLWzvRrKViAi7UZqxL"
+			]
+		},
+		"contracts/interfaces/IReferral.sol": {
+			"keccak256": "0x6879448144bc854bdeaf10c53a455fd1573a7489c254d5b1dc17994291e0edfa",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://421c383a54a13c719ca79aed57558318fb1b97ea4e6efb546c9ede809fad1ca4",
+				"dweb:/ipfs/Qmb6Eggve4sZt7jkHhwMSPhEk9hvBPTXDhzWhwVeHfyb3R"
+			]
+		},
+		"contracts/periphery/Referral.sol": {
+			"keccak256": "0x0b6cd10fa0838c7e19198e63e6410b6832f23918f8200b60239f6b996023ef51",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://42dcca12aa93f9188a1e77e8dc59dd2c5edb31a4c4c870b1bf6030b820d3644e",
+				"dweb:/ipfs/QmbZaH8YWQ2k2ePYoBjFg9P3aKVVmGEn2p65EM3FJ1CbBm"
+			]
+		},
+		"contracts/periphery/Register.sol": {
+			"keccak256": "0xc5acce36f5a5a4f525f0e0f7f969d7b3d06d8aea06a2c6a8fdb13445ddcf2871",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://921d2d569fac5c7f4b15fa6b5b5776449cca15990eaa08daead6025eb20235e1",
+				"dweb:/ipfs/Qmb1LcTFiEXfXUQ2WgPkgiYbPnZXwUa9g3JZc3nMVnzSUx"
+			]
+		}
+	},
+	"version": 1
+}

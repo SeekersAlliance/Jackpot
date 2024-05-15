@@ -15,6 +15,7 @@ interface IJackpot {
     error InvalidAddress();
     error InvalidValue();
     error InvalidAmount();
+    error EmptyJackpot();
     error NotCollectedCards();
 
     /** 

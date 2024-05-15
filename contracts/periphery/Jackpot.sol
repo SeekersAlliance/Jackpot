@@ -35,6 +35,7 @@ import "../interfaces/IJackpot.sol";
     function claim() external override{
         address sender = msg.sender;
         if(!_checkCollectedCards(sender)) revert NotCollectedCards();
+        if(_getTotalValue() == 0) revert EmptyJackpot();
         _burn(sender);
         paymentToken.transfer(sender, _getTotalValue());
         emit JackpotClaim(sender, _getTotalValue());
