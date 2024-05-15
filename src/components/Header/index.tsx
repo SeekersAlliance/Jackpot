@@ -63,10 +63,10 @@ export const Header: FC = () => {
 					})}
 				</NavigateGroup>
 			</div>
-			<div style={{ flex: 1, justifyContent: 'center' }}>
+			<JackpotContainer>
 				<Jackpot src={`${getBaseUrl()}/img/pg1-2/jackpot.png`} />
 				<JackpotReward>$37,000</JackpotReward>
-			</div>
+			</JackpotContainer>
 			<div style={{ flex: 1, justifyContent: 'flex-end' }}>
 				{!connected ? (
 					<ConnectWallet
@@ -114,6 +114,12 @@ const NavigateGroup = styled.div`
 	}
 `;
 
+const JackpotContainer = styled.div`
+	flex: 1;
+	justify-content: center;
+	position: relative;
+`;
+
 const Jackpot = styled.img`
 	max-width: 500px;
 	aspect-ratio: 827 / 217;
@@ -125,8 +131,8 @@ const JackpotReward = styled.span`
 	position: absolute;
 	top: 40px;
 	left: 50%;
-	transform: translateX(-57%);
-	font-size: 36px;
+	transform: translateX(-50%);
+	font-size: 4vh;
 	font-weight: 700;
 	color: #fff;
 `;
