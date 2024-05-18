@@ -5,6 +5,7 @@ import FaucetBtn from 'components/FaucetBtn';
 import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
+import { purchasePack } from 'utils/chain';
 import { requestFaucet } from 'utils/faucet';
 import { getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
@@ -45,8 +46,9 @@ export const HomeScreen: FC = () => {
 						<MainBtnGroup>
 							<MainBtn
 								tag="10 TestUSD"
-								onClick={() => {
-									appState.cardResult = mockCards.single;
+								onClick={async () => {
+									const result = await purchasePack(0, 1);
+									console.log(result);
 									navigate('/result/single');
 								}}
 							>
