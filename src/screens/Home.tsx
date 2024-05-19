@@ -11,11 +11,6 @@ import { getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
 
-const mockCards = {
-	single: [1],
-	pack: [4, 2, 3, 1, 5, 4, 2, 3, 1, 5, 3],
-};
-
 export const HomeScreen: FC = () => {
 	const navigate = useNavigate();
 	const { address } = useSnapshot(appState);
@@ -47,8 +42,7 @@ export const HomeScreen: FC = () => {
 							<MainBtn
 								tag="10 TestUSD"
 								onClick={async () => {
-									const result = await purchasePack(0, 1);
-									console.log(result);
+									await purchasePack(0, 1);
 									navigate('/result/single');
 								}}
 							>
@@ -56,8 +50,8 @@ export const HomeScreen: FC = () => {
 							</MainBtn>
 							<MainBtn
 								tag="100 TestUSD"
-								onClick={() => {
-									appState.cardResult = mockCards.pack;
+								onClick={async () => {
+									await purchasePack(1, 1);
 									navigate('/result/pack');
 								}}
 							>

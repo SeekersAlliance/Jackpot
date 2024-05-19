@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import {
 	createBrowserRouter,
 	redirect,
@@ -8,6 +9,7 @@ import DashboardScreen from 'screens/Dashboard';
 import HomeScreen from 'screens/Home';
 import InventoryScreen from 'screens/Inventory';
 import ResultScreen from 'screens/Result';
+import { subscribeDrawEvent, web3 } from 'utils/chain';
 import { getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 
@@ -44,6 +46,13 @@ export const router = createBrowserRouter(
 );
 
 export const App: FC = () => {
+	useEffect(() => {
+		subscribeDrawEvent();
+
+		return () => {
+			web3.eth.clearSubscriptions();
+		};
+	}, []);
 	return <RouterProvider router={router} />;
 };
 

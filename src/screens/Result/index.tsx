@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import MainBtn from 'components/MainBtn';
 import TransactionBtn from 'components/TransactionBtn';
@@ -14,7 +14,7 @@ export const ResultScreen: FC = () => {
 	const { itemType } = useParams();
 	const navigate = useNavigate();
 	const [animationRunning, setAnimationRunning] = useState(true);
-	const { address, cardResult } = useSnapshot(appState);
+	const { address, cardResult, transactionId = '' } = useSnapshot(appState);
 	const title = itemType === 'single' ? 'CARD RECEIVED' : 'CARDS RECEIVED';
 
 	return (
@@ -38,20 +38,11 @@ export const ResultScreen: FC = () => {
 					</Header>
 					<TransactionGroup>
 						<TransactionBtn>
-							{formatAddress(
-								'0x94736c147c55957a42b6b729b248a139c91a36894e0b77cc25a49f21da214d63',
-								15,
-							)}
-						</TransactionBtn>
-						<TransactionBtn>
-							{formatAddress(
-								'0x94736c147c55957a42b6b729b248a139c91a36894e0b77cc25a49f21da214d63',
-								15,
-							)}
+							{formatAddress(transactionId, 15)}
 						</TransactionBtn>
 					</TransactionGroup>
 					<Title>{title}</Title>
-					<CardGroup cardIds={cardResult as number[]} />
+					<CardGroup cardIds={cardResult} />
 					<BtnGroup>
 						<MainBtn
 							onClick={() => navigate('/', { replace: true })}

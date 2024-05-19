@@ -1,38 +1,66 @@
 import type { FC } from 'react';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { CardType, getCardImage } from 'utils/cards';
+import { appState } from 'utils/state';
 
 interface Props {
-	cardIds: number[];
+	cardIds: readonly number[];
 }
 
 export const CardGroup: FC<Props> = ({ cardIds }) => {
+	const [loading, setLoading] = useState(cardIds[0] === 0);
 	const isSingleCard = cardIds.length === 1;
 	const [rowOne, rowTwo] = [cardIds.slice(0, 5), cardIds.slice(5)];
 
+	useEffect(() => {
+		if (cardIds[0] !== 0) {
+			setLoading(false);
+		}
+	}, [cardIds[0]]);
+
+	useEffect(() => {
+		return () => {
+			appState.cardResult = [0];
+		};
+	}, []);
+
 	return (
 		<Container>
-			{isSingleCard ? (
-				<SingleCard src={getCardImage(cardIds[0], CardType.single)} />
+			{loading ? (
+				<p style={{ color: 'white', fontSize: 40 }}>Loading...</p>
 			) : (
 				<Fragment>
-					<CardRow>
-						{rowOne.map((cardId, idx) => (
-							<SmallCard
-								key={idx}
-								src={getCardImage(cardId, CardType.small)}
-							/>
-						))}
-					</CardRow>
-					<CardRow className="row-two">
-						{rowTwo.map((cardId, idx) => (
-							<SmallCard
-								key={idx}
-								src={getCardImage(cardId, CardType.small)}
-							/>
-						))}
-					</CardRow>
+					{isSingleCard ? (
+						<SingleCard
+							src={getCardImage(cardIds[0], CardType.single)}
+						/>
+					) : (
+						<Fragment>
+							<CardRow>
+								{rowOne.map((cardId, idx) => (
+									<SmallCard
+										key={idx}
+										src={getCardImage(
+											cardId,
+											CardType.small,
+										)}
+									/>
+								))}
+							</CardRow>
+							<CardRow className="row-two">
+								{rowTwo.map((cardId, idx) => (
+									<SmallCard
+										key={idx}
+										src={getCardImage(
+											cardId,
+											CardType.small,
+										)}
+									/>
+								))}
+							</CardRow>
+						</Fragment>
+					)}
 				</Fragment>
 			)}
 		</Container>
