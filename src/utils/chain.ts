@@ -3,6 +3,7 @@ import Web3 from 'web3';
 
 import abiDraw from './abiDraw.json';
 import abiMarketplace from './abiMarketplace.json';
+import abiNFT from './abiNFT.json';
 import abiToken from './abiToken.json';
 import { appState } from './state';
 
@@ -68,6 +69,7 @@ export enum SmartContract {
 	Token = '0x69fBe552E6361A7620Bb2C106259Be301049E087',
 	Marketplace = '0xecc09a9b0831cb38455cfcde8b27ad2538b348b3',
 	Draw = '0xe0320089466D923f3401F3b50CBEBE51Fba5C868',
+	NFT = '0x49430AB34Dad2622b3327B57e517D22a2488E530',
 }
 
 export const web3 = new Web3(window.ethereum);
@@ -84,6 +86,7 @@ const marketplaceContract = loadContract(
 	SmartContract.Marketplace,
 );
 const tokenContract = loadContract(abiToken, SmartContract.Token);
+const nftContract = loadContract(abiNFT, SmartContract.NFT);
 
 export const purchasePack = async (pack: number, card: number) => {
 	const { address, referredAddress } = snapshot(appState);
@@ -147,4 +150,22 @@ export const subscribeDrawEvent = async () => {
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+const nftIds = [1, 2, 3, 4, 5];
+
+export const getNftIdList = async () => {
+	const { address } = snapshot(appState);
+	const nftBalance = await Promise.all(
+		nftIds.map(async (nftId) => {
+			return Number(
+				await nftContract.methods.balanceOf(address, nftId).call(),
+			);
+		}),
+	);
+	const nftIdList = nftBalance.reduce((list, balance, idx) => {
+		const idFilledArray: number[] = Array(balance).fill(nftIds[idx]);
+		return list.concat(idFilledArray);
+	}, [] as number[]);
+	return nftIdList;
 };
