@@ -148,7 +148,9 @@ export const subscribeDrawEvent = async () => {
 
 			if (compareRequestId) {
 				appState.cardResult = [
-					...event.returnValues['ids']?.map((value) => Number(value)),
+					...(event.returnValues['ids'] as number[]).map((value) =>
+						Number(value),
+					),
 				];
 			}
 		});
@@ -179,4 +181,9 @@ export const getJackpotTotalValue = async () => {
 	const result =
 		Number(await jackpotContract.methods.getTotalValue().call()) / 10 ** 6;
 	appState.jackpot = result;
+};
+
+export const getCollectedCardsID = async () => {
+	const result = await jackpotContract.methods.getCollectedCardsID().call();
+	console.log(result);
 };

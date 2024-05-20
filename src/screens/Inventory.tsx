@@ -9,12 +9,12 @@ import { getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
 
-const cardInWallet = [1, 1, 1, 3, 3, 4, 4, 4, 4];
-const cardCollected = Array.from(new Set(cardInWallet));
-
 export const InventoryScreen: FC = () => {
 	const { address } = useSnapshot(appState);
 	const [nftIdList, setNftIdList] = useState<number[]>([]);
+	const [collectedIds, setCollectedIds] = useState<number[]>(
+		Array.from(new Set(nftIdList)),
+	);
 	useEffect(() => {
 		const getNft = async () => {
 			if (address) {
@@ -26,6 +26,11 @@ export const InventoryScreen: FC = () => {
 		getNft();
 	}, [address]);
 
+	useEffect(() => {
+		const newCollectedIds = Array.from(new Set(nftIdList));
+		setCollectedIds(newCollectedIds);
+	}, [nftIdList]);
+
 	return (
 		<Container>
 			<Header />
@@ -36,7 +41,7 @@ export const InventoryScreen: FC = () => {
 					{Array(5)
 						.fill(0)
 						.map((_, idx) => {
-							const cardType = cardCollected.some(
+							const cardType = collectedIds.some(
 								(cardId) => cardId === idx + 1,
 							)
 								? CardType.small
@@ -45,10 +50,10 @@ export const InventoryScreen: FC = () => {
 							return <Card key={idx} src={cardImgSrc} />;
 						})}
 				</div>
-				<MainBtn isLong={true} disabled={!(cardCollected.length === 5)}>
+				<MainBtn isLong={true} disabled={!(collectedIds.length === 5)}>
 					BURN CARDS TO CLAIM JACKPOT!
 				</MainBtn>
-				<span>{`${cardCollected.length}/5 Cards Collected`}</span>
+				<span>{`${collectedIds.length}/5 Cards Collected`}</span>
 			</Collection>
 			<CardInWallet>
 				{nftIdList.map((cardId, idx) => {

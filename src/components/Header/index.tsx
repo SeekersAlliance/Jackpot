@@ -40,6 +40,8 @@ export const Header: FC = () => {
 	useEffect(() => {
 		getAccount();
 		getJackpotTotalValue();
+		const ws = new WebSocket('wss://opbnb-testnet.publicnode.com');
+		ws.onopen = console.log;
 		window.ethereum?.on('accountsChanged', handleAccountChanged);
 
 		return () =>
