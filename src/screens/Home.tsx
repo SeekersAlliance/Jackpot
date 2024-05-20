@@ -46,8 +46,8 @@ export const HomeScreen: FC = () => {
 							<MainBtn
 								tag="10 TestUSD"
 								onClick={async () => {
-									await purchasePack(0, 1);
-									navigate('/result/single');
+									const result = await purchasePack(0, 1);
+									result && navigate('/result/single');
 								}}
 							>
 								BUY 1 CARD
@@ -55,8 +55,8 @@ export const HomeScreen: FC = () => {
 							<MainBtn
 								tag="100 TestUSD"
 								onClick={async () => {
-									await purchasePack(1, 1);
-									navigate('/result/pack');
+									const result = await purchasePack(1, 1);
+									result && navigate('/result/pack');
 								}}
 							>
 								BUY 10 GET 1 FREE!

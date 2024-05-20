@@ -124,6 +124,8 @@ export const purchasePack = async (pack: number, card: number) => {
 			const decString = web3.utils.hexToNumberString(requestIdHash);
 			appState.requestId = decString;
 		}
+
+		return result;
 	} catch (error) {
 		console.log(error);
 	}
