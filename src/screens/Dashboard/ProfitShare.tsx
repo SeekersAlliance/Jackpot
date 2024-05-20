@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import MainBtn from 'components/MainBtn';
 import MetricBox from 'components/MetricBox';
 import styled from 'styled-components';
@@ -9,6 +10,9 @@ interface Props {
 }
 
 export const ProfitShare: FC<Props> = ({ active = false }) => {
+	useEffect(() => {
+	}, []);
+
 	return (
 		<Container $active={active}>
 			<Upper>

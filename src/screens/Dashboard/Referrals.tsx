@@ -1,8 +1,9 @@
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MetricBox from 'components/MetricBox';
 import styled from 'styled-components';
-import { getBaseUrl } from 'utils/helper';
+import { getReferralHistory, getTotalReferral } from 'utils/chain';
+import { formatAddress, getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
 
@@ -13,8 +14,14 @@ const domain = window.location.origin;
 
 export const Referrals: FC<Props> = ({ active = true }) => {
 	const [copyClick, setCopyClick] = useState(false);
-	const { address } = useSnapshot(appState);
+	const { address, referral } = useSnapshot(appState);
 	const referralLink = `${domain}/referred/${address}`;
+
+	useEffect(() => {
+		getTotalReferral();
+		getReferralHistory();
+		console.log(referral, '<<< re-render');
+	}, [address]);
 
 	return (
 		<Container $active={active}>
@@ -33,12 +40,18 @@ export const Referrals: FC<Props> = ({ active = true }) => {
 				</ReferralInput>
 			</ReferralBox>
 			<MetricGroup>
-				<MetricBox title="Successful Referrals" metric="30" />
+				<MetricBox
+					title="Successful Referrals"
+					metric={referral.count.toString()}
+				/>
 				<MetricBox
 					title="Total Cards Bought by Referrals "
-					metric="350"
+					metric={referral.amount.toString()}
 				/>
-				<MetricBox title="You Earned" metric="$101.30" />
+				<MetricBox
+					title="You Earned"
+					metric={`$${referral.value.toString()}`}
+				/>
 			</MetricGroup>
 
 			<ReferredTrack>
@@ -51,18 +64,14 @@ export const Referrals: FC<Props> = ({ active = true }) => {
 							<h3>Total Spending (TestUSD)</h3>
 						</div>
 					</div>
-					<div>
-						<div>0x21ba0aE36317C9...F819995F45a99ceEC5</div>
-						<div>
-							<div>$10.00</div>
+					{referral.history.map((history, idx) => (
+						<div key={idx}>
+							<div>{formatAddress(history?.from, 16)}</div>
+							<div>
+								<div>{`$${Number(history?.value) / 10 ** 6}.00`}</div>
+							</div>
 						</div>
-					</div>
-					<div>
-						<div>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</div>
-						<div>
-							<div>$100.00</div>
-						</div>
-					</div>
+					))}
 				</ReferredBox>
 				<ReferralImage />
 			</ReferredTrack>
