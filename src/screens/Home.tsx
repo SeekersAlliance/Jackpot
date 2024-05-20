@@ -6,14 +6,10 @@ import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
 import { purchasePack } from 'utils/chain';
-import { requestFaucet } from 'utils/faucet';
 import { getBaseUrl } from 'utils/helper';
-import { appState } from 'utils/state';
-import { useSnapshot } from 'valtio';
 
 export const HomeScreen: FC = () => {
 	const navigate = useNavigate();
-	const { address } = useSnapshot(appState);
 
 	return (
 		<Fragment>
@@ -23,13 +19,21 @@ export const HomeScreen: FC = () => {
 					<BtnGroup>
 						<FaucetBtn
 							onClick={() =>
-								requestFaucet('native', address, 0.01)
+								window.open(
+									'https://opbnb-testnet-bridge.bnbchain.org/deposit',
+									'_blank',
+								)
 							}
 						>
 							TBNB Faucet
 						</FaucetBtn>
 						<FaucetBtn
-							onClick={() => requestFaucet('usdc', address, 1000)}
+							onClick={() =>
+								window.open(
+									'https://testnet.opbnbscan.com/address/0x69fBe552E6361A7620Bb2C106259Be301049E087?tab=Contract&p=1&view=contract_write',
+									'_blank',
+								)
+							}
 						>
 							Get 1000 TestUSD
 						</FaucetBtn>

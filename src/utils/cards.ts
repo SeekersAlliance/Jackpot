@@ -8,10 +8,10 @@ export enum CardType {
 }
 
 export const cardMap = {
-	'1': 'morak_galahad_',
+	'1': 'bubble_gunner_',
 	'2': 'meta_whelp_',
 	'3': 'double_agent_',
-	'4': 'bubble_gunner_',
+	'4': 'morak_galahad_',
 	'5': 'dragon_speaker_',
 };
 
