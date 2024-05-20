@@ -2,6 +2,7 @@ import { snapshot } from 'valtio';
 import Web3 from 'web3';
 
 import abiDraw from './abiDraw.json';
+import abiJackpot from './abiJackpot.json';
 import abiMarketplace from './abiMarketplace.json';
 import abiNFT from './abiNFT.json';
 import abiToken from './abiToken.json';
@@ -70,6 +71,7 @@ export enum SmartContract {
 	Marketplace = '0xecc09a9b0831cb38455cfcde8b27ad2538b348b3',
 	Draw = '0xe0320089466D923f3401F3b50CBEBE51Fba5C868',
 	NFT = '0x49430AB34Dad2622b3327B57e517D22a2488E530',
+	Jackpot = '0xACD71681d8b904BCD7eFdce9AdcC8A5d0091c1D9',
 }
 
 export const web3 = new Web3(window.ethereum);
@@ -87,6 +89,7 @@ const marketplaceContract = loadContract(
 );
 const tokenContract = loadContract(abiToken, SmartContract.Token);
 const nftContract = loadContract(abiNFT, SmartContract.NFT);
+const jackpotContract = loadContract(abiJackpot, SmartContract.Jackpot);
 
 export const purchasePack = async (pack: number, card: number) => {
 	const { address, referredAddress } = snapshot(appState);
@@ -170,4 +173,10 @@ export const getNftIdList = async () => {
 		return list.concat(idFilledArray);
 	}, [] as number[]);
 	return nftIdList;
+};
+
+export const getJackpotTotalValue = async () => {
+	const result =
+		Number(await jackpotContract.methods.getTotalValue().call()) / 10 ** 6;
+	appState.jackpot = result;
 };

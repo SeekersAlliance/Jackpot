@@ -2,7 +2,12 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { connectWallet, getAccount, handleAccountChanged } from 'utils/chain';
+import {
+	connectWallet,
+	getAccount,
+	getJackpotTotalValue,
+	handleAccountChanged,
+} from 'utils/chain';
 import { formatAddress, getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
@@ -28,12 +33,13 @@ const tabs = [
 export const Header: FC = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { address } = useSnapshot(appState);
+	const { address, jackpot } = useSnapshot(appState);
 	const [focus, setFocus] = useState(false);
 	const [connected, setConnected] = useState(!!address);
 
 	useEffect(() => {
 		getAccount();
+		getJackpotTotalValue();
 		window.ethereum?.on('accountsChanged', handleAccountChanged);
 
 		return () =>
@@ -65,7 +71,7 @@ export const Header: FC = () => {
 			</div>
 			<JackpotContainer>
 				<Jackpot src={`${getBaseUrl()}/img/pg1-2/jackpot.png`} />
-				<JackpotReward>$37,000</JackpotReward>
+				<JackpotReward>{`$${jackpot}`}</JackpotReward>
 			</JackpotContainer>
 			<div style={{ flex: 1, justifyContent: 'flex-end' }}>
 				{!connected ? (
