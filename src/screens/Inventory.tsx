@@ -38,17 +38,15 @@ export const InventoryScreen: FC = () => {
 			<Collection>
 				<h3>Collect all 5 cards to win Jackpot!</h3>
 				<div>
-					{Array(5)
-						.fill(0)
-						.map((_, idx) => {
-							const cardType = collectedIds.some(
-								(cardId) => cardId === idx + 1,
-							)
-								? CardType.small
-								: CardType.none;
-							const cardImgSrc = getCardImage(idx + 1, cardType);
-							return <Card key={idx} src={cardImgSrc} />;
-						})}
+					{[4, 2, 3, 1, 5].map((value, idx) => {
+						const cardType = collectedIds.some(
+							(cardId) => cardId === value,
+						)
+							? CardType.small
+							: CardType.none;
+						const cardImgSrc = getCardImage(value, cardType);
+						return <Card key={idx} src={cardImgSrc} />;
+					})}
 				</div>
 				<MainBtn isLong={true} disabled={!(collectedIds.length === 5)}>
 					BURN CARDS TO CLAIM JACKPOT!
