@@ -54,8 +54,11 @@ export const App: FC = () => {
 				console.log(event);
 				subscribeDrawEvent();
 			};
+
+			ws.onmessage = (event) => {
+				console.log(event);
+			};
 			ws.onclose = () => {
-				web3.eth.clearSubscriptions();
 				setTimeout(connect, 5000);
 			};
 		};
@@ -63,6 +66,7 @@ export const App: FC = () => {
 		connect();
 
 		return () => {
+			web3.eth.clearSubscriptions();
 			ws.close();
 		};
 	}, []);
