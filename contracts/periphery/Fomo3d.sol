@@ -77,7 +77,7 @@ contract Fomo3d is IFomo3d{
         uint256 userAmount = amount[_user] + _amount;
         if(totalAmount+_amount == 0) return 0;
         uint256 ratio = (userAmount*(10**decimal))/(totalAmount+_amount);
-        return  (ratio * price)/ (10**decimal);
+        return  (ratio * (price/10))/ (10**decimal);
     }
     // @inheritdoc IFomo3d
     function getUnclaim(address _user) external view returns (uint256 value){
