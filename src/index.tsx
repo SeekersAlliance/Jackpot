@@ -47,10 +47,23 @@ export const router = createBrowserRouter(
 
 export const App: FC = () => {
 	useEffect(() => {
-		subscribeDrawEvent();
+		let ws: WebSocket;
+		const connect = () => {
+			ws = new WebSocket('wss://opbnb-testnet.publicnode.com');
+			ws.onopen = (event) => {
+				console.log(event);
+				subscribeDrawEvent();
+			};
+			ws.onclose = () => {
+				web3.eth.clearSubscriptions();
+				setTimeout(connect, 5000);
+			};
+		};
+
+		connect();
 
 		return () => {
-			web3.eth.clearSubscriptions();
+			ws.close();
 		};
 	}, []);
 	return <RouterProvider router={router} />;
