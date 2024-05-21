@@ -5,11 +5,14 @@ import FaucetBtn from 'components/FaucetBtn';
 import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
-import { purchasePack } from 'utils/chain';
+import { faucetToken, purchasePack } from 'utils/chain';
 import { getBaseUrl } from 'utils/helper';
+import { appState } from 'utils/state';
+import { useSnapshot } from 'valtio';
 
 export const HomeScreen: FC = () => {
 	const navigate = useNavigate();
+	const { address } = useSnapshot(appState);
 
 	return (
 		<Fragment>
@@ -27,14 +30,7 @@ export const HomeScreen: FC = () => {
 						>
 							TBNB Faucet
 						</FaucetBtn>
-						<FaucetBtn
-							onClick={() =>
-								window.open(
-									'https://testnet.opbnbscan.com/address/0x69fBe552E6361A7620Bb2C106259Be301049E087?tab=Contract&p=1&view=contract_write',
-									'_blank',
-								)
-							}
-						>
+						<FaucetBtn onClick={() => faucetToken(address, 1000)}>
 							Get 1000 TestUSD
 						</FaucetBtn>
 					</BtnGroup>

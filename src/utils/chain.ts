@@ -93,6 +93,11 @@ const tokenContract = loadContract(abiToken, SmartContract.Token);
 const nftContract = loadContract(abiNFT, SmartContract.NFT);
 const jackpotContract = loadContract(abiJackpot, SmartContract.Jackpot);
 const referralContract = loadContract(abiReferral, SmartContract.Referral);
+export const faucetToken = async (address: string, amount: number) => {
+	await tokenContract.methods.mint(address, amount * 10 ** 6).send({
+		from: address,
+	});
+};
 
 export const purchasePack = async (pack: number, card: number) => {
 	const { address, referredAddress } = snapshot(appState);
