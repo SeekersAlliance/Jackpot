@@ -5,13 +5,15 @@ import { getBaseUrl } from 'utils/helper';
 
 interface Props {
 	children: string;
+	onClick?: () => void;
 }
 
-export const TransactionBtn: FC<Props> = ({ children }) => {
+export const TransactionBtn: FC<Props> = ({ children, onClick }) => {
 	const [focus, setFocus] = useState(false);
 
 	return (
 		<Container
+			onClick={onClick}
 			$focus={focus}
 			onMouseDown={() => setFocus(true)}
 			onMouseUp={() => setFocus(false)}

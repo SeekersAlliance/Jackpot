@@ -37,7 +37,14 @@ export const ResultScreen: FC = () => {
 						</WalletGroup>
 					</Header>
 					<TransactionGroup>
-						<TransactionBtn>
+						<TransactionBtn
+							onClick={() =>
+								window.open(
+									`https://testnet.opbnbscan.com/tx/${transactionId}`,
+									'_blank',
+								)
+							}
+						>
 							{formatAddress(transactionId, 15)}
 						</TransactionBtn>
 					</TransactionGroup>
