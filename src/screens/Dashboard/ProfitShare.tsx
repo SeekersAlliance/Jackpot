@@ -1,17 +1,43 @@
 import type { FC } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MainBtn from 'components/MainBtn';
 import MetricBox from 'components/MetricBox';
 import styled from 'styled-components';
+import { claimProfit, getPredict, getProfitShareInfo } from 'utils/chain';
 import { getBaseUrl } from 'utils/helper';
+import { appState } from 'utils/state';
+import { useSnapshot } from 'valtio';
 
 interface Props {
 	active?: boolean;
 }
 
 export const ProfitShare: FC<Props> = ({ active = false }) => {
+	const { address, profit } = useSnapshot(appState);
+	const naviagte = useNavigate();
+	const [cardAmount, setCardAmount] = useState(1);
+	const [predictedProfit, setPredictedProfit] = useState(
+		profit.nextCardSoldProfit,
+	);
 	useEffect(() => {
-	}, []);
+		if (address) {
+			getProfitShareInfo();
+		}
+	}, [address]);
+
+	useEffect(() => {
+		const handlePredict = async () => {
+			if (!address) return;
+			const newPredictedProfit = await getPredict(
+				address,
+				cardAmount || 0,
+			);
+			setPredictedProfit(newPredictedProfit);
+		};
+
+		handlePredict();
+	}, [cardAmount, address]);
 
 	return (
 		<Container $active={active}>
@@ -19,33 +45,50 @@ export const ProfitShare: FC<Props> = ({ active = false }) => {
 				<UpperLeft>
 					<MetricBox
 						title="Total Early-Buyer Profits Made"
-						metric="$80.00"
+						metric={`$${profit.total.toFixed(2)}`}
 					/>
 					<Claim>
 						<div className="title claimed">Claimed:</div>
-						<div className="value claimed">$10.00</div>
+						<div className="value claimed">{`$${profit.claimed.toFixed(2)}`}</div>
 						<div className="title unclaimed">Unclaimed:</div>
-						<div className="value unclaimed">$70.00</div>
+						<div className="value unclaimed">{`$${profit.unclaim.toFixed(2)}`}</div>
 					</Claim>
-					<MainBtn>CLAIM $70!</MainBtn>
+					<MainBtn
+						onClick={claimProfit}
+					>{`CLAIM $${profit.unclaim.toFixed(2)}!`}</MainBtn>
 				</UpperLeft>
 				<UpperRight>
 					<div style={{ flex: 1, flexDirection: 'column' }}>
 						<ProfitEstimate $direction="left">
 							Approximate profit I will make on the next card
 							sold:
-							<span>$0.69</span>
+							<span>{`$${profit.nextCardSoldProfit.toFixed(2)}`}</span>
 						</ProfitEstimate>
 						<SeparateLine />
 						<CardsInput>
-							If I buy: <input /> more cards...
+							If I buy:{' '}
+							<input
+								type={'number'}
+								value={cardAmount.toString()}
+								onChange={(event) => {
+									const numberOfCards = Number(
+										event.target.value,
+									);
+									if (numberOfCards < 0) return;
+									setCardAmount(numberOfCards);
+								}}
+							/>{' '}
+							more cards...
 						</CardsInput>
 						<ProfitEstimate $direction="right">
 							Approximate profit I will make on the next card
 							sold:
-							<span>$0.69</span>
+							<span>{`$${predictedProfit.toFixed(2)}`}</span>
 						</ProfitEstimate>
-						<div style={{ justifyContent: 'center' }}>
+						<div
+							style={{ justifyContent: 'center' }}
+							onClick={() => naviagte('/')}
+						>
 							<MainBtn>BUY MORE CARDS!</MainBtn>
 						</div>
 					</div>

@@ -20,7 +20,6 @@ export const Referrals: FC<Props> = ({ active = true }) => {
 	useEffect(() => {
 		getTotalReferral();
 		getReferralHistory();
-		console.log(referral, '<<< re-render');
 	}, [address]);
 
 	return (

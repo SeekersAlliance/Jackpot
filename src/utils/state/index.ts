@@ -13,6 +13,12 @@ interface AppState {
 		value: number;
 		history: unknown[];
 	};
+	profit: {
+		total: number;
+		claimed: number;
+		unclaim: number;
+		nextCardSoldProfit: number;
+	};
 }
 
 export const appState = proxy<AppState>({
@@ -25,5 +31,11 @@ export const appState = proxy<AppState>({
 		amount: 0,
 		value: 0,
 		history: [],
+	},
+	profit: {
+		total: 0,
+		claimed: 0,
+		unclaim: 0,
+		nextCardSoldProfit: 0,
 	},
 });

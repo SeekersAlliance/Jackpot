@@ -1,7 +1,8 @@
-import { snapshot, subscribe } from 'valtio';
+import { snapshot } from 'valtio';
 import Web3 from 'web3';
 
 import abiDraw from './abiDraw.json';
+import abiFomo from './abiFomo.json';
 import abiJackpot from './abiJackpot.json';
 import abiMarketplace from './abiMarketplace.json';
 import abiNFT from './abiNFT.json';
@@ -74,6 +75,7 @@ export enum SmartContract {
 	NFT = '0x49430AB34Dad2622b3327B57e517D22a2488E530',
 	Jackpot = '0xACD71681d8b904BCD7eFdce9AdcC8A5d0091c1D9',
 	Referral = '0x46d657Ba75C5A1fd60b9E4dee64318Ff69e670fe',
+	Fomo = '0x68b59d4C456Fb6eD4EcB1DFE9927ECF0804dC49a',
 }
 
 export const web3 = new Web3(window.ethereum);
@@ -93,6 +95,8 @@ const tokenContract = loadContract(abiToken, SmartContract.Token);
 const nftContract = loadContract(abiNFT, SmartContract.NFT);
 const jackpotContract = loadContract(abiJackpot, SmartContract.Jackpot);
 const referralContract = loadContract(abiReferral, SmartContract.Referral);
+const fomoContract = loadContract(abiFomo, SmartContract.Fomo);
+
 export const faucetToken = async (address: string, amount: number) => {
 	await tokenContract.methods.mint(address, amount * 10 ** 6).send({
 		from: address,
@@ -192,7 +196,7 @@ export const getJackpotTotalValue = async () => {
 };
 
 export const getTotalReferral = async () => {
-	const { address, referral } = snapshot(appState);
+	const { address } = snapshot(appState);
 
 	if (!address) return;
 
@@ -216,5 +220,50 @@ export const getReferralHistory = async () => {
 		.getHistoryReferralInfo(address)
 		.call()) as unknown[];
 	appState.referral.history = [...result];
-	console.log(result);
+};
+
+export const getProfitShareInfo = async () => {
+	const { address } = snapshot(appState);
+	await Promise.all([
+		getTotalProfit(address),
+		getClaimed(address),
+		getUnclaim(address),
+		// getPredict(address, 0),
+		(async () => {
+			appState.profit.nextCardSoldProfit = await getPredict(address, 0);
+		})(),
+	]);
+};
+
+const getTotalProfit = async (address: string) => {
+	const result = await fomoContract.methods.getTotalProfit(address).call();
+	appState.profit.total = Number(result) / 10 ** 6;
+};
+
+const getClaimed = async (address: string) => {
+	const result = await fomoContract.methods.getClaimed(address).call();
+	appState.profit.claimed = Number(result) / 10 ** 6;
+};
+
+const getUnclaim = async (address: string) => {
+	const result = await fomoContract.methods.getUnclaim(address).call();
+	appState.profit.unclaim = Number(result) / 10 ** 6;
+};
+
+export const getPredict = async (address: string, numberOfCards: number) => {
+	const result = await fomoContract.methods
+		.getPredict(address, numberOfCards)
+		.call();
+	return Number(result) / 10 ** 6;
+};
+
+export const claimProfit = async () => {
+	const { address } = snapshot(appState);
+	const result = await fomoContract.methods.claim().send({
+		from: address,
+	});
+
+	if (result) {
+		getProfitShareInfo();
+	}
 };
