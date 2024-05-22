@@ -71,7 +71,7 @@ export const handleAccountChanged = (accounts: string[]) => {
 
 export enum SmartContract {
 	Token = '0x69fBe552E6361A7620Bb2C106259Be301049E087',
-	Marketplace = '0xecc09a9b0831cb38455cfcde8b27ad2538b348b3',
+	Marketplace = '0xe43BeE387e5d89c299730f7B7b581D35af753494',
 	Draw = '0xe0320089466D923f3401F3b50CBEBE51Fba5C868',
 	NFT = '0x49430AB34Dad2622b3327B57e517D22a2488E530',
 	Jackpot = '0xBBda289cEe994B0927e45F9682faCAa1e1658916',
