@@ -1,4 +1,4 @@
-import { snapshot } from 'valtio';
+import { proxy, snapshot } from 'valtio';
 import type { EventLog } from 'web3';
 import Web3 from 'web3';
 
@@ -145,8 +145,6 @@ export const purchasePack = async (pack: number, card: number) => {
 			appState.requestId = decString;
 		}
 
-		fetchNftIdList();
-
 		return result;
 	} catch (error) {
 		console.log(error);
@@ -161,16 +159,16 @@ export const subscribeDrawEvent = async () => {
 		);
 		const subscription = drawContractWebsocket.events.RequestCompleted();
 		subscription.on('data', (event) => {
+			console.log('draw event', event);
 			const { requestId } = snapshot(appState);
 			const compareRequestId =
 				event.returnValues[0]?.toString() === requestId;
 
 			if (compareRequestId) {
-				appState.cardResult = [
-					...(event.returnValues['ids'] as number[]).map((value) =>
-						Number(value),
-					),
-				];
+				const cardResult = (event.returnValues['ids'] as number[]).map(
+					(value) => Number(value),
+				);
+				appState.cardResult = proxy(cardResult);
 			}
 		});
 	} catch (error) {
@@ -179,6 +177,41 @@ export const subscribeDrawEvent = async () => {
 };
 
 const nftIds = [4, 2, 3, 1, 5];
+
+export const subscribeNftContractEvent = () => {
+	const nftContractWebsocket = new web3Socket.eth.Contract(
+		abiNFT,
+		SmartContract.NFT,
+	);
+	nftContractWebsocket.events
+		.TransferSingle({
+			filter: {
+				to: appState.address,
+			},
+		})
+		.on('data', async (event) => {
+			console.log('transfer single >>>', event);
+			const receipt = await web3.eth.getTransaction(
+				event.transactionHash,
+			);
+			console.log('transaction', receipt);
+			await fetchNftIdList();
+		});
+	nftContractWebsocket.events
+		.TransferBatch({
+			filter: {
+				to: appState.address,
+			},
+		})
+		.on('data', async (event) => {
+			console.log('transfer batch >>>', event);
+			const receipt = await web3.eth.getTransaction(
+				event.transactionHash,
+			);
+			console.log('transaction', receipt);
+			await fetchNftIdList();
+		});
+};
 
 export const fetchNftIdList = async () => {
 	const { address } = snapshot(appState);
@@ -189,11 +222,13 @@ export const fetchNftIdList = async () => {
 			);
 		}),
 	);
+	console.log('nft balance', nftBalance);
 	const nftIdList = nftBalance.reduce((list, balance, idx) => {
 		const idFilledArray: number[] = Array(balance).fill(nftIds[idx]);
 		return list.concat(idFilledArray);
 	}, [] as number[]);
-	appState.collectedNft = nftIdList;
+	console.log('fetch nft id list', nftIdList);
+	appState.collectedNft = proxy(nftIdList);
 };
 
 export const getJackpotTotalValue = async () => {

@@ -9,7 +9,11 @@ import DashboardScreen from 'screens/Dashboard';
 import HomeScreen from 'screens/Home';
 import InventoryScreen from 'screens/Inventory';
 import ResultScreen from 'screens/Result';
-import { subscribeDrawEvent, web3 } from 'utils/chain';
+import {
+	subscribeDrawEvent,
+	subscribeNftContractEvent,
+	web3,
+} from 'utils/chain';
 import { getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 
@@ -55,11 +59,18 @@ export const App: FC = () => {
 			ws.onopen = (event) => {
 				console.log('websocket opened', event);
 				subscribeDrawEvent();
+				subscribeNftContractEvent();
 			};
 
 			ws.onmessage = (event) => {
 				console.log(event);
 			};
+
+			ws.onerror = (event) => {
+				console.log('websocket error', event);
+				setTimeout(connect, 5000);
+			};
+
 			ws.onclose = () => {
 				setTimeout(connect, 5000);
 			};
