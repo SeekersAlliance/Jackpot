@@ -171,7 +171,7 @@
 		{
 		  "name": "value",
 		  "type": "uint256",
-		  "value": "80000000",
+		  "value": "0",
 		  "internalType": "uint256"
 		}
 	  ],

@@ -125,6 +125,27 @@
 	  "stateMutability": "view"
 	},
 	{
+	  "name": "getReferralAddress",
+	  "type": "function",
+	  "inputs": [
+		{
+		  "name": "_user",
+		  "type": "address",
+		  "internalType": "address"
+		}
+	  ],
+	  "outputs": [
+		{
+		  "name": "",
+		  "type": "address",
+		  "internalType": "address"
+		}
+	  ],
+	  "constant": true,
+	  "signature": "0x4954cbb9",
+	  "stateMutability": "view"
+	},
+	{
 	  "name": "getTotalReferralInfo",
 	  "type": "function",
 	  "inputs": [
@@ -199,6 +220,27 @@
 	  "stateMutability": "view"
 	},
 	{
+	  "name": "referralMap",
+	  "type": "function",
+	  "inputs": [
+		{
+		  "name": "",
+		  "type": "address",
+		  "internalType": "address"
+		}
+	  ],
+	  "outputs": [
+		{
+		  "name": "",
+		  "type": "address",
+		  "internalType": "address"
+		}
+	  ],
+	  "constant": true,
+	  "signature": "0x9ca17601",
+	  "stateMutability": "view"
+	},
+	{
 	  "name": "register",
 	  "type": "function",
 	  "inputs": [],
@@ -213,5 +255,24 @@
 	  "constant": true,
 	  "signature": "0x1aa3a008",
 	  "stateMutability": "view"
+	},
+	{
+	  "name": "setReferralAddress",
+	  "type": "function",
+	  "inputs": [
+		{
+		  "name": "_user",
+		  "type": "address",
+		  "internalType": "address"
+		},
+		{
+		  "name": "_referral",
+		  "type": "address",
+		  "internalType": "address"
+		}
+	  ],
+	  "outputs": [],
+	  "signature": "0x2af004e7",
+	  "stateMutability": "nonpayable"
 	}
   ]
