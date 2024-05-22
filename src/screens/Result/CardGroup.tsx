@@ -9,10 +9,9 @@ interface Props {
 }
 
 export const CardGroup: FC<Props> = ({ cardIds }) => {
-	const [loading, setLoading] = useState(cardIds[0] === 0);
+	const [loading, setLoading] = useState(false);
 	const isSingleCard = cardIds.length === 1;
 	const [rowOne, rowTwo] = [cardIds.slice(0, 5), cardIds.slice(5)];
-
 	useEffect(() => {
 		if (cardIds[0] !== 0) {
 			setLoading(false);
@@ -20,6 +19,7 @@ export const CardGroup: FC<Props> = ({ cardIds }) => {
 	}, [cardIds[0]]);
 
 	useEffect(() => {
+		setLoading(cardIds.length == 0 || cardIds[0] === 0);
 		return () => {
 			appState.cardResult = [0];
 		};
