@@ -50,8 +50,10 @@ export const App: FC = () => {
 		let ws: WebSocket;
 		const connect = () => {
 			ws = new WebSocket('wss://opbnb-testnet.publicnode.com');
+			console.log('start websocket', ws);
+
 			ws.onopen = (event) => {
-				console.log(event);
+				console.log('websocket opened', event);
 				subscribeDrawEvent();
 			};
 
