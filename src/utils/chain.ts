@@ -73,9 +73,9 @@ export enum SmartContract {
 	Marketplace = '0xecc09a9b0831cb38455cfcde8b27ad2538b348b3',
 	Draw = '0xe0320089466D923f3401F3b50CBEBE51Fba5C868',
 	NFT = '0x49430AB34Dad2622b3327B57e517D22a2488E530',
-	Jackpot = '0xACD71681d8b904BCD7eFdce9AdcC8A5d0091c1D9',
+	Jackpot = '0xBBda289cEe994B0927e45F9682faCAa1e1658916',
 	Referral = '0x46d657Ba75C5A1fd60b9E4dee64318Ff69e670fe',
-	Fomo = '0x68b59d4C456Fb6eD4EcB1DFE9927ECF0804dC49a',
+	Fomo = '0x227eebC2f5BBb3d636d3F7027690a01A3fbA38DD',
 }
 
 export const web3 = new Web3(window.ethereum);
@@ -148,11 +148,11 @@ export const purchasePack = async (pack: number, card: number) => {
 
 export const subscribeDrawEvent = async () => {
 	try {
-		const drawContract = new web3Socket.eth.Contract(
+		const drawContractWebsocket = new web3Socket.eth.Contract(
 			abiDraw,
 			SmartContract.Draw,
 		);
-		const subscription = drawContract.events.RequestCompleted();
+		const subscription = drawContractWebsocket.events.RequestCompleted();
 		subscription.on('data', (event) => {
 			const { requestId } = snapshot(appState);
 			const compareRequestId =
@@ -171,7 +171,7 @@ export const subscribeDrawEvent = async () => {
 	}
 };
 
-const nftIds = [1, 2, 3, 4, 5];
+const nftIds = [4, 2, 3, 1, 5];
 
 export const getNftIdList = async () => {
 	const { address } = snapshot(appState);
@@ -193,6 +193,20 @@ export const getJackpotTotalValue = async () => {
 	const result =
 		Number(await jackpotContract.methods.getTotalValue().call()) / 10 ** 6;
 	appState.jackpot = result;
+};
+
+export const claimJackpot = async () => {
+	const { address } = snapshot(appState);
+	await nftContract.methods
+		.setApprovalForAll(SmartContract.Jackpot, true)
+		.send({
+			from: address,
+		});
+	const result = await jackpotContract.methods.claim().send({
+		from: address,
+	});
+	appState.jackpotTxId = result.transactionHash;
+	getJackpotTotalValue();
 };
 
 export const getTotalReferral = async () => {
@@ -228,7 +242,6 @@ export const getProfitShareInfo = async () => {
 		getTotalProfit(address),
 		getClaimed(address),
 		getUnclaim(address),
-		// getPredict(address, 0),
 		(async () => {
 			appState.profit.nextCardSoldProfit = await getPredict(address, 0);
 		})(),

@@ -4,17 +4,18 @@ import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
 import { CardType, getCardImage } from 'utils/cards';
-import { getNftIdList } from 'utils/chain';
+import { claimJackpot, getNftIdList } from 'utils/chain';
 import { getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
 
 export const InventoryScreen: FC = () => {
-	const { address } = useSnapshot(appState);
+	const { address, jackpot, jackpotTxId } = useSnapshot(appState);
 	const [nftIdList, setNftIdList] = useState<number[]>([]);
 	const [collectedIds, setCollectedIds] = useState<number[]>(
 		Array.from(new Set(nftIdList)),
 	);
+	const [modalDisplay, setModalDisplay] = useState(false);
 	useEffect(() => {
 		const getNft = async () => {
 			if (address) {
@@ -30,6 +31,10 @@ export const InventoryScreen: FC = () => {
 		const newCollectedIds = Array.from(new Set(nftIdList));
 		setCollectedIds(newCollectedIds);
 	}, [nftIdList]);
+
+	useEffect(() => {
+		if (jackpotTxId) setModalDisplay(true);
+	}, [jackpotTxId]);
 
 	return (
 		<Container>
@@ -48,7 +53,11 @@ export const InventoryScreen: FC = () => {
 						return <Card key={idx} src={cardImgSrc} />;
 					})}
 				</div>
-				<MainBtn isLong={true} disabled={!(collectedIds.length === 5)}>
+				<MainBtn
+					isLong={true}
+					disabled={!(collectedIds.length === 5)}
+					onClick={claimJackpot}
+				>
 					BURN CARDS TO CLAIM JACKPOT!
 				</MainBtn>
 				<span>{`${collectedIds.length}/5 Cards Collected`}</span>
@@ -59,6 +68,27 @@ export const InventoryScreen: FC = () => {
 					return <Card key={idx} src={cardImgSrc} />;
 				})}
 			</CardInWallet>
+			<ModalContainer $display={modalDisplay}>
+				<ModalContent>
+					<CloseBtn onClick={() => setModalDisplay(!modalDisplay)} />
+					<ModalTitle>CONGRATULATIONS!</ModalTitle>
+					<ModalSubtitle>{`You've collected all 5 cards & won the $${jackpot} JACKPOT!!`}</ModalSubtitle>
+					<CoinS src={`${getBaseUrl()}/img/pg6-7/S_icon_glow.png`} />
+					<BtnContainer>
+						<MainBtn
+							isLong
+							onClick={() =>
+								window.open(
+									`https://testnet.opbnbscan.com/tx/${jackpotTxId}`,
+									'_blank',
+								)
+							}
+						>
+							JACKPOT TRANSACTION ID
+						</MainBtn>
+					</BtnContainer>
+				</ModalContent>
+			</ModalContainer>
 		</Container>
 	);
 };
@@ -113,4 +143,75 @@ const Card = styled.img`
 const CardInWallet = styled.div`
 	flex-wrap: wrap;
 	max-width: 1080px;
+`;
+
+const ModalContainer = styled.div<{ $display: boolean }>`
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	z-index: 0;
+	display: ${({ $display }) => ($display ? 'flex' : 'none')} !important;
+`;
+
+const ModalContent = styled.div`
+	position: relative;
+	align-self: center;
+	width: 70%;
+	height: 69vh;
+	flex-direction: column;
+	z-index: 1;
+
+	&:before {
+		content: '';
+		background-color: #241a30;
+		opacity: 0.97;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 0;
+	}
+`;
+
+const CloseBtn = styled.div`
+	background-image: url('${getBaseUrl()}/img/pg6-7/close_ic.svg');
+	background-size: contain;
+	width: 40px;
+	margin: 10px 10px 0 0;
+	aspect-ratio: 1;
+	align-self: flex-end;
+	z-index: 2;
+	cursor: pointer;
+`;
+
+const ModalTitle = styled.h1`
+	text-align: center;
+	color: gold;
+	z-index: 2;
+	font-size: 40px;
+`;
+
+const ModalSubtitle = styled.p`
+	text-align: center;
+	color: #fff;
+	z-index: 2;
+	font-size: 26px;
+	font-weight: 600;
+	margin: 0;
+`;
+
+const CoinS = styled.img`
+	z-index: 2;
+	width: 320px;
+	aspect-ratio: 1;
+	align-self: center;
+`;
+
+const BtnContainer = styled.div`
+	z-index: 2;
+	justify-content: center;
 `;
