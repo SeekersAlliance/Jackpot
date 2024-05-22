@@ -1,4 +1,5 @@
 import { proxy } from 'valtio';
+import type { EventLog } from 'web3';
 
 interface AppState {
 	address: string;
@@ -7,6 +8,7 @@ interface AppState {
 	referredAddress?: string;
 	transactionId?: string;
 	jackpot: number;
+	jackpotTxId: string;
 	referral: {
 		count: number;
 		amount: number;
@@ -19,6 +21,7 @@ interface AppState {
 		unclaim: number;
 		nextCardSoldProfit: number;
 	};
+	latestEvents: EventLog[];
 }
 
 export const appState = proxy<AppState>({
@@ -26,6 +29,7 @@ export const appState = proxy<AppState>({
 	requestId: '',
 	cardResult: [],
 	jackpot: 0,
+	jackpotTxId: '',
 	referral: {
 		count: 0,
 		amount: 0,
@@ -38,4 +42,5 @@ export const appState = proxy<AppState>({
 		unclaim: 0,
 		nextCardSoldProfit: 0,
 	},
+	latestEvents: [],
 });

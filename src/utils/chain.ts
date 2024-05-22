@@ -1,4 +1,5 @@
 import { snapshot } from 'valtio';
+import type { EventLog } from 'web3';
 import Web3 from 'web3';
 
 import abiDraw from './abiDraw.json';
@@ -96,6 +97,7 @@ const nftContract = loadContract(abiNFT, SmartContract.NFT);
 const jackpotContract = loadContract(abiJackpot, SmartContract.Jackpot);
 const referralContract = loadContract(abiReferral, SmartContract.Referral);
 const fomoContract = loadContract(abiFomo, SmartContract.Fomo);
+const drawContract = loadContract(abiDraw, SmartContract.Draw);
 
 export const faucetToken = async (address: string, amount: number) => {
 	await tokenContract.methods.mint(address, amount * 10 ** 6).send({
@@ -279,4 +281,36 @@ export const claimProfit = async () => {
 	if (result) {
 		getProfitShareInfo();
 	}
+};
+
+export const fetchPastEvents = async () => {
+	const jackpotEvents = (await jackpotContract.getPastEvents('JackpotClaim', {
+		fromBlock: 0,
+		toBlock: 'latest',
+	})) as EventLog[];
+	const filteredJackpotEvents = jackpotEvents.toSorted(
+		(formerEvent, latterEvent) =>
+			Number(latterEvent.blockNumber) - Number(formerEvent.blockNumber),
+	);
+
+	const drawEvents = (await drawContract.getPastEvents('RequestCompleted', {
+		fromBlock: 0,
+		toBlock: 'latest',
+	})) as EventLog[];
+
+	const filteredDrawEvent = drawEvents
+		.filter((event) => {
+			return (event.returnValues.ids as bigint[]).includes(4n);
+		})
+		.toSorted(
+			(former, latter) =>
+				Number(latter.blockNumber) - Number(former.blockNumber),
+		);
+
+	console.log(jackpotEvents);
+	console.log(filteredDrawEvent);
+	appState.latestEvents[0] = filteredDrawEvent[0];
+	appState.latestEvents[1] = filteredJackpotEvents[0];
+	appState.latestEvents[2] = filteredDrawEvent[1];
+	appState.latestEvents[3] = filteredJackpotEvents[0];
 };
