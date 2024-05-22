@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import MainBtn from 'components/MainBtn';
 import TransactionBtn from 'components/TransactionBtn';
