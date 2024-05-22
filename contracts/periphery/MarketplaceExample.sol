@@ -41,11 +41,7 @@ contract MarketplaceReceiver is Ownable, IMarketplace {
         uint256 basePrice = packsInfo[_packID].basePrice;
         uint256 totalPayment;
         address purchaser = msg.sender;
-        // If the referral address is not set, set it to the owner of this contract
-        if(_referral == address(0)){
-            _referral = owner();
-        }
-
+        
         if(_packAmounts == 0) revert InvalidAmount();
 
         totalPayment = _packAmounts*basePrice;
@@ -64,6 +60,18 @@ contract MarketplaceReceiver is Ownable, IMarketplace {
             totalAmounts[i] = _amounts[i]*_packAmounts;
             total += totalAmounts[i];
         }
+
+        // If the referral address is not set, set it to the owner of this contract
+        if(IReferral(register.getContract(register.REFERRAL())).getReferralAddress(purchaser) == address(0)){
+            if(_referral == address(0)){
+                _referral = owner();
+            }else{
+                IReferral(register.getContract(register.REFERRAL())).setReferralAddress(purchaser, _referral);
+            }
+        }else{
+            _referral = IReferral(register.getContract(register.REFERRAL())).getReferralAddress(purchaser);
+        }
+
         // Transfer tokens from buyer to fomo3d, jackpot and referral contracts respectively, 10% to fomo3d, 80% to jackpot and 10% to referral
 
         paymentToken.transferFrom(purchaser, register.getContract(register.FOMO3D()), totalPayment/10);

@@ -15,6 +15,7 @@ contract Referral is  IReferral{
         Register public register;
 
         mapping (address => ReferralInfo[]) public historyReferralInfo;
+        mapping (address => address) public referralMap;
 
         constructor(address _register){
             register = Register(_register);
@@ -47,6 +48,19 @@ contract Referral is  IReferral{
                 total.count++;
             }
             return total;
+        }
+
+        // @inheritdoc IReferral
+        function getReferralAddress(address _user) external view returns (address){
+            return referralMap[_user];
+        }
+
+        // @inheritdoc IReferral
+        function setReferralAddress(address _user, address _referral) external{
+            register.checkRole(register.MARKET(), msg.sender);
+            if(referralMap[_user] == address(0)){
+                referralMap[_user] = _referral;
+            }
         }
 
 }

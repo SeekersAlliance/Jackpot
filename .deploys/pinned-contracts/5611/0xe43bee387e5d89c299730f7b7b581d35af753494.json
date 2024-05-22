@@ -1,6 +1,6 @@
 {
   "name": "MarketplaceReceiver",
-  "address": "0xecc09a9b0831cb38455cfcde8b27ad2538b348b3",
+  "address": "0xe43bee387e5d89c299730f7b7b581d35af753494",
   "abi": [
     {
       "inputs": [
@@ -273,5 +273,5 @@
     }
   ],
   "filePath": " - connect to localhost - /contracts/periphery/MarketplaceExample.sol",
-  "pinnedAt": 1715847699239
+  "pinnedAt": 1716364433236
 }

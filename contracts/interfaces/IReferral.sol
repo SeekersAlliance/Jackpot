@@ -50,5 +50,18 @@ interface IReferral {
      */
     function getHistoryReferralInfo(address _user) external view returns (ReferralInfo[] memory);
 
+    /**
+     * @notice Get referral address of the user
+     * @notice If the user has no referral address, return address(0)
+     * @param _user The user address
+     */
+    function getReferralAddress(address _user) external returns (address);
+
+    /**
+     * @notice set referral address of the user
+     * @notice If the user has no referral address, set it to the referralMap
+     * @param _user The user address
+     */
+    function setReferralAddress(address _user, address _referral) external;
 
 }
