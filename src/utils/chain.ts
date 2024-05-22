@@ -111,11 +111,14 @@ export const purchasePack = async (pack: number, card: number) => {
 	try {
 		if (!address) throw new Error('Please connect wallet');
 
-		const allowanceRequire = pack === 1 ? 100000000n : 10000000n;
+		const allowanceRequire = pack === 1 ? 100000000 : 10000000;
 		const allowanceGrant = (await tokenContract.methods
 			.allowance(address, SmartContract.Marketplace)
 			.call()) as bigint;
-		const isAllowanceEnough = allowanceGrant === allowanceRequire;
+		console.log(Number(allowanceGrant), '<<< allowance');
+		console.log(allowanceRequire, '<<< required');
+		const isAllowanceEnough = Number(allowanceGrant) >= allowanceRequire;
+		console.log('allowance enough: ', isAllowanceEnough);
 		if (!isAllowanceEnough) {
 			await tokenContract.methods
 				.approve(SmartContract.Marketplace, allowanceRequire)
@@ -141,6 +144,8 @@ export const purchasePack = async (pack: number, card: number) => {
 			const decString = web3.utils.hexToNumberString(requestIdHash);
 			appState.requestId = decString;
 		}
+
+		fetchNftIdList();
 
 		return result;
 	} catch (error) {
@@ -175,7 +180,7 @@ export const subscribeDrawEvent = async () => {
 
 const nftIds = [4, 2, 3, 1, 5];
 
-export const getNftIdList = async () => {
+export const fetchNftIdList = async () => {
 	const { address } = snapshot(appState);
 	const nftBalance = await Promise.all(
 		nftIds.map(async (nftId) => {
@@ -188,7 +193,7 @@ export const getNftIdList = async () => {
 		const idFilledArray: number[] = Array(balance).fill(nftIds[idx]);
 		return list.concat(idFilledArray);
 	}, [] as number[]);
-	return nftIdList;
+	appState.collectedNft = nftIdList;
 };
 
 export const getJackpotTotalValue = async () => {
@@ -309,8 +314,12 @@ export const fetchPastEvents = async () => {
 
 	console.log(jackpotEvents);
 	console.log(filteredDrawEvent);
-	appState.latestEvents[0] = filteredDrawEvent[0];
-	appState.latestEvents[1] = filteredJackpotEvents[0];
-	appState.latestEvents[2] = filteredDrawEvent[1];
-	appState.latestEvents[3] = filteredJackpotEvents[0];
+	appState.latestEvents[0] = filteredJackpotEvents[0];
+	appState.latestEvents[1] = filteredDrawEvent[0];
+	appState.latestEvents[2] = filteredJackpotEvents[0];
+	appState.latestEvents[3] = filteredDrawEvent[1];
+	appState.latestEvents[4] = filteredJackpotEvents[0];
+	appState.latestEvents[5] = filteredDrawEvent[0];
+	appState.latestEvents[6] = filteredJackpotEvents[0];
+	appState.latestEvents[7] = filteredDrawEvent[1];
 };

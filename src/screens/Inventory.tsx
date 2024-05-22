@@ -4,33 +4,25 @@ import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
 import { CardType, getCardImage } from 'utils/cards';
-import { claimJackpot, getNftIdList } from 'utils/chain';
+import { claimJackpot, fetchNftIdList } from 'utils/chain';
 import { getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
 
 export const InventoryScreen: FC = () => {
-	const { address, jackpot, jackpotTxId } = useSnapshot(appState);
-	const [nftIdList, setNftIdList] = useState<number[]>([]);
+	const { address, jackpot, jackpotTxId, collectedNft } = useSnapshot(appState);
 	const [collectedIds, setCollectedIds] = useState<number[]>(
-		Array.from(new Set(nftIdList)),
+		Array.from(new Set(collectedNft)),
 	);
 	const [modalDisplay, setModalDisplay] = useState(false);
 	useEffect(() => {
-		const getNft = async () => {
-			if (address) {
-				const nftIdList = await getNftIdList();
-				setNftIdList(nftIdList);
-			}
-		};
-
-		getNft();
+		address && fetchNftIdList();
 	}, [address]);
 
 	useEffect(() => {
-		const newCollectedIds = Array.from(new Set(nftIdList));
+		const newCollectedIds = Array.from(new Set(collectedNft));
 		setCollectedIds(newCollectedIds);
-	}, [nftIdList]);
+	}, [collectedNft]);
 
 	useEffect(() => {
 		if (jackpotTxId) setModalDisplay(true);
@@ -63,7 +55,7 @@ export const InventoryScreen: FC = () => {
 				<span>{`${collectedIds.length}/5 Cards Collected`}</span>
 			</Collection>
 			<CardInWallet>
-				{nftIdList.map((cardId, idx) => {
+				{collectedNft.map((cardId, idx) => {
 					const cardImgSrc = getCardImage(cardId, CardType.small);
 					return <Card key={idx} src={cardImgSrc} />;
 				})}

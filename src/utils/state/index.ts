@@ -22,6 +22,7 @@ interface AppState {
 		nextCardSoldProfit: number;
 	};
 	latestEvents: EventLog[];
+	collectedNft: number[];
 }
 
 export const appState = proxy<AppState>({
@@ -43,4 +44,5 @@ export const appState = proxy<AppState>({
 		nextCardSoldProfit: 0,
 	},
 	latestEvents: [],
+	collectedNft: [],
 });
