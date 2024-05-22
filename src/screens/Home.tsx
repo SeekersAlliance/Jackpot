@@ -102,7 +102,6 @@ export default HomeScreen;
 const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
-	// height: 100vh;
 `;
 
 const Content = styled.div`
@@ -143,11 +142,11 @@ const SeekersAllianceLogo = styled.img`
 
 const marqueeAnimation = keyframes`
 	0% {
-		left: -100%;
+		left: 0%;
 	}
 
 	100% {
-		left: 0%;
+		left: -200%;
 	}
 `;
 
@@ -160,16 +159,17 @@ const MarqueeContainer = styled.div`
 `;
 
 const MarqueeInnerContainer = styled.div`
-	width: 200%;
+	width: 400%;
 	position: absolute;
 	overflow: hidden;
-	animation: ${marqueeAnimation} 8s linear infinite;
+	animation: ${marqueeAnimation} 20s linear infinite;
 `;
 
 const MarqueeItem = styled.div<{ $isJackpot: boolean }>`
 	flex-grow: 1;
-	gap: 15px;
+	flex-basis: 1;
 	height: 100%;
+	justify-content: center;
 
 	span {
 		background-color: #666;

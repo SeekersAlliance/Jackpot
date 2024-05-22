@@ -138,7 +138,7 @@ const JackpotReward = styled.span`
 	top: 40px;
 	left: 50%;
 	transform: translateX(-50%);
-	font-size: 4vh;
+	font-size: 32px;
 	font-weight: 700;
 	color: #fff;
 `;
