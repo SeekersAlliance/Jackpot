@@ -1,6 +1,6 @@
 {
   "name": "Jackpot",
-  "address": "0xacd71681d8b904bcd7efdce9adcc8a5d0091c1d9",
+  "address": "0xbbda289cee994b0927e45f9682facaa1e1658916",
   "abi": [
     {
       "inputs": [],
@@ -239,5 +239,5 @@
     }
   ],
   "filePath": " - connect to localhost - /contracts/periphery/Jackpot.sol",
-  "pinnedAt": 1715847982438
+  "pinnedAt": 1716346087065
 }

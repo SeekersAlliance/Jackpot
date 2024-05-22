@@ -37,8 +37,9 @@ import "../interfaces/IJackpot.sol";
         if(!_checkCollectedCards(sender)) revert NotCollectedCards();
         if(_getTotalValue() == 0) revert EmptyJackpot();
         _burn(sender);
+        uint256 value = _getTotalValue();
         paymentToken.transfer(sender, _getTotalValue());
-        emit JackpotClaim(sender, _getTotalValue());
+        emit JackpotClaim(sender, value);
     }
 
     // @inheritdoc IJackpot
