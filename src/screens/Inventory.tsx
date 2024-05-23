@@ -56,7 +56,7 @@ export const InventoryScreen: FC = () => {
 				</div>
 				<MainBtn
 					isLong={true}
-					disabled={!(collectedIds.length === 5)}
+					disabled={!(collectedIds.length === 5 && jackpot > 0)}
 					onClick={claimJackpot}
 				>
 					BURN CARDS TO CLAIM JACKPOT!
