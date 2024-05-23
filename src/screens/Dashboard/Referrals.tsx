@@ -60,7 +60,7 @@ export const Referrals: FC<Props> = ({ active = true }) => {
 							<h3>Referred Address</h3>
 						</div>
 						<div>
-							<h3>Total Spending (TestUSD)</h3>
+							<h3>Referral Fees Earned</h3>
 						</div>
 					</div>
 					{referral.history.map((history, idx) => (
