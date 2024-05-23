@@ -9,6 +9,7 @@ interface AppState {
 	transactionId?: string;
 	jackpot: number;
 	jackpotTxId: string;
+	jackpotClaimed: number;
 	referral: {
 		count: number;
 		amount: number;
@@ -31,6 +32,7 @@ export const appState = proxy<AppState>({
 	cardResult: [],
 	jackpot: 0,
 	jackpotTxId: '',
+	jackpotClaimed: 0,
 	referral: {
 		count: 0,
 		amount: 0,

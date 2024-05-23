@@ -10,7 +10,8 @@ import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
 
 export const InventoryScreen: FC = () => {
-	const { address, jackpot, jackpotTxId, collectedNft } = useSnapshot(appState);
+	const { address, jackpot, jackpotTxId, jackpotClaimed, collectedNft } =
+		useSnapshot(appState);
 	const [collectedIds, setCollectedIds] = useState<number[]>(
 		Array.from(new Set(collectedNft)),
 	);
@@ -25,8 +26,16 @@ export const InventoryScreen: FC = () => {
 	}, [collectedNft]);
 
 	useEffect(() => {
+		console.log('jackpot prize', jackpot);
 		if (jackpotTxId) setModalDisplay(true);
 	}, [jackpotTxId]);
+
+	useEffect(() => {
+		return () => {
+			appState.jackpotTxId = '';
+			appState.jackpotClaimed = 0;
+		};
+	}, []);
 
 	return (
 		<Container>
@@ -64,7 +73,7 @@ export const InventoryScreen: FC = () => {
 				<ModalContent>
 					<CloseBtn onClick={() => setModalDisplay(!modalDisplay)} />
 					<ModalTitle>CONGRATULATIONS!</ModalTitle>
-					<ModalSubtitle>{`You've collected all 5 cards & won the $${jackpot} JACKPOT!!`}</ModalSubtitle>
+					<ModalSubtitle>{`You've collected all 5 cards & won the $${jackpotClaimed} JACKPOT!!`}</ModalSubtitle>
 					<CoinS src={`${getBaseUrl()}/img/pg6-7/S_icon_glow.png`} />
 					<BtnContainer>
 						<MainBtn

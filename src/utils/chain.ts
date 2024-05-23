@@ -252,7 +252,12 @@ export const claimJackpot = async () => {
 	const result = await jackpotContract.methods.claim().send({
 		from: address,
 	});
+	const jackpotClaimed =
+		Number(web3.utils.hexToNumberString(result.logs[2].data as string)) /
+		10 ** 6;
+	console.log('transaction claim', result);
 	appState.jackpotTxId = result.transactionHash;
+	appState.jackpotClaimed = jackpotClaimed;
 	getJackpotTotalValue();
 };
 
