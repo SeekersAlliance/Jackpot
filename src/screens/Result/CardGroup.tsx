@@ -3,25 +3,25 @@ import { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { CardType, getCardImage } from 'utils/cards';
 import { appState } from 'utils/state';
+import { proxy } from 'valtio';
 
 interface Props {
 	cardIds: readonly number[];
 }
 
 export const CardGroup: FC<Props> = ({ cardIds }) => {
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const isSingleCard = cardIds.length === 1;
 	const [rowOne, rowTwo] = [cardIds.slice(0, 5), cardIds.slice(5)];
 	useEffect(() => {
-		if (cardIds[0] !== 0) {
+		if (cardIds.length > 0) {
 			setLoading(false);
 		}
-	}, [cardIds[0]]);
+	}, [cardIds]);
 
 	useEffect(() => {
-		setLoading(cardIds.length == 0 || cardIds[0] === 0);
 		return () => {
-			appState.cardResult = [0];
+			appState.cardResult = proxy([]);
 		};
 	}, []);
 
