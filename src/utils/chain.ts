@@ -239,11 +239,16 @@ export const getJackpotTotalValue = async () => {
 
 export const claimJackpot = async () => {
 	const { address } = snapshot(appState);
-	await nftContract.methods
-		.setApprovalForAll(SmartContract.Jackpot, true)
-		.send({
-			from: address,
-		});
+	const isApprovedAll = await nftContract.methods
+		.isApprovedForAll(address, SmartContract.Jackpot)
+		.call();
+	if (!isApprovedAll) {
+		await nftContract.methods
+			.setApprovalForAll(SmartContract.Jackpot, true)
+			.send({
+				from: address,
+			});
+	}
 	const result = await jackpotContract.methods.claim().send({
 		from: address,
 	});
