@@ -19,12 +19,17 @@ export const MainBtn: FC<Props> = ({
 }) => {
 	const [focus, setFocus] = useState(false);
 	const hasTag = !!tag;
+	const handleClick = disabled
+		? () => {
+				console.log('disabled');
+			}
+		: onClick;
 
 	return (
 		<Container
 			onMouseDown={() => setFocus(true)}
 			onMouseUp={() => setFocus(false)}
-			onClick={onClick}
+			onClick={handleClick}
 		>
 			{hasTag && <Tag>{tag}</Tag>}
 			<Button $focus={focus} $isLong={isLong} $disabled={disabled}>
