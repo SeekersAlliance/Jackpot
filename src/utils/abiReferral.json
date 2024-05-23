@@ -220,6 +220,27 @@
 	  "stateMutability": "view"
 	},
 	{
+	  "name": "referralCount",
+	  "type": "function",
+	  "inputs": [
+		{
+		  "name": "",
+		  "type": "address",
+		  "internalType": "address"
+		}
+	  ],
+	  "outputs": [
+		{
+		  "name": "",
+		  "type": "uint32",
+		  "internalType": "uint32"
+		}
+	  ],
+	  "constant": true,
+	  "signature": "0xdb74559b",
+	  "stateMutability": "view"
+	},
+	{
 	  "name": "referralMap",
 	  "type": "function",
 	  "inputs": [
