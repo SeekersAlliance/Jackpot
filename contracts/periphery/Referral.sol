@@ -16,6 +16,7 @@ contract Referral is  IReferral{
 
         mapping (address => ReferralInfo[]) public historyReferralInfo;
         mapping (address => address) public referralMap;
+        mapping (address => uint32) public referralCount;
 
         constructor(address _register){
             register = Register(_register);
@@ -45,8 +46,8 @@ contract Referral is  IReferral{
             for(uint i = 0; i < history.length; i++){
                 total.value += history[i].value;
                 total.amount += history[i].amount;
-                total.count++;
             }
+            total.count = referralCount[_user];
             return total;
         }
 
@@ -60,6 +61,7 @@ contract Referral is  IReferral{
             register.checkRole(register.MARKET(), msg.sender);
             if(referralMap[_user] == address(0)){
                 referralMap[_user] = _referral;
+                referralCount[_referral]++;
             }
         }
 
