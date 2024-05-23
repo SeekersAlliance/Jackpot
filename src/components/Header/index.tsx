@@ -40,10 +40,12 @@ export const Header: FC = () => {
 	useEffect(() => {
 		getAccount();
 		getJackpotTotalValue();
-		window.ethereum?.on('accountsChanged', handleAccountChanged);
-
-		return () =>
-			window.ethereum?.on('accountsChanged', handleAccountChanged);
+		window.ethereum?.on('accountsChanged', (accounts: string[]) => {
+			handleAccountChanged(accounts);
+			navigate('/');
+		});
+		/* return () =>
+			window.ethereum?.on('accountsChanged', handleAccountChanged); */
 	}, []);
 
 	useEffect(() => {
