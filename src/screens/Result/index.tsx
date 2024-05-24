@@ -14,8 +14,23 @@ export const ResultScreen: FC = () => {
 	const { itemType } = useParams();
 	const navigate = useNavigate();
 	const [animationRunning, setAnimationRunning] = useState(true);
-	const { address, cardResult, transactionId = '' } = useSnapshot(appState);
+	const {
+		address,
+		cardResult,
+		transactionId = '',
+		referralLink,
+		jackpot,
+	} = useSnapshot(appState);
 	const title = itemType === 'single' ? 'CARD RECEIVED' : 'CARDS RECEIVED';
+
+	const handleTwitterShare = () => {
+		console.log(referralLink);
+		const shareText = `I just added more cards to my %23SeekersAlliance collection! The season jackpot is now at [$${jackpot}]!!! Use my referral link to play:`;
+
+		window.open(
+			`https://twitter.com/intent/tweet?text=${shareText}&url=${referralLink}`,
+		);
+	};
 
 	return (
 		<Container>
@@ -63,6 +78,15 @@ export const ResultScreen: FC = () => {
 						>
 							SEE INVENTORY
 						</MainBtn>
+						<ShareBtn
+							src={`${getBaseUrl()}/img/pg4-5/share_x_button.png`}
+							style={{
+								position: 'absolute',
+								left: 30,
+								bottom: 0,
+							}}
+							onClick={handleTwitterShare}
+						/>
 					</BtnGroup>
 					<SeekersAllianceLogo
 						src={`${getBaseUrl()}/img/pg1-2/seekers_alliance_logo.png`}
@@ -142,7 +166,21 @@ const Title = styled.h1`
 `;
 
 const BtnGroup = styled.div`
-	padding-bottom: 30px;
+	margin-bottom: 30px;
+	position: relative;
+	width: 100%;
+	justify-content: center;
+
+	div {
+		align-self: flex-start;
+	}
+`;
+
+const ShareBtn = styled.img`
+	position: absolute;
+	left: 30px;
+	bottom: 0;
+	cursor: pointer;
 `;
 
 const SeekersAllianceLogo = styled.img`

@@ -24,6 +24,7 @@ interface AppState {
 	};
 	latestEvents: EventLog[];
 	collectedNft: number[];
+	referralLink: string;
 }
 
 export const appState = proxy<AppState>({
@@ -47,4 +48,5 @@ export const appState = proxy<AppState>({
 	},
 	latestEvents: [],
 	collectedNft: [],
+	referralLink: '',
 });

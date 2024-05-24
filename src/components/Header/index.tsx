@@ -12,6 +12,8 @@ import { formatAddress, getBaseUrl } from 'utils/helper';
 import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
 
+const domain = window.location.origin;
+
 const tabs = [
 	{
 		link: '/',
@@ -49,6 +51,7 @@ export const Header: FC = () => {
 	}, []);
 
 	useEffect(() => {
+		appState.referralLink = `${domain}${getBaseUrl()}/referred/${address}`;
 		setConnected(!!address);
 	}, [address]);
 

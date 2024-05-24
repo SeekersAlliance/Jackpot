@@ -10,12 +10,10 @@ import { useSnapshot } from 'valtio';
 interface Props {
 	active?: boolean;
 }
-const domain = window.location.origin;
 
 export const Referrals: FC<Props> = ({ active = true }) => {
 	const [copyClick, setCopyClick] = useState(false);
-	const { address, referral } = useSnapshot(appState);
-	const referralLink = `${domain}${getBaseUrl()}/referred/${address}`;
+	const { address, referral, referralLink } = useSnapshot(appState);
 
 	useEffect(() => {
 		getTotalReferral();

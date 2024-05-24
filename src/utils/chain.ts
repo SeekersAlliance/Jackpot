@@ -67,6 +67,7 @@ export const ensureNetworkTarget = async () => {
 
 export const handleAccountChanged = (accounts: string[]) => {
 	appState.address = accounts[0];
+	appState.referredAddress = undefined;
 };
 
 export enum SmartContract {
