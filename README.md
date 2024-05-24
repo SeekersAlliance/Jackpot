@@ -25,9 +25,7 @@ The following document contains the setup instructions for our smart contracts, 
 1. setTokenPool 
 2. setTokenMax 
 3. setUnitPool 
-4. setUnitPool 
-5. setUnitPool 
-6. setDrawingPool  
+4. setDrawingPool  
 ### VRFManagerOpbnb Contract
 - deposit
     - Coordinator gas
