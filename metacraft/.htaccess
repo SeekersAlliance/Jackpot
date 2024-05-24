@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Handle only requests under /jackpot/
+RewriteCond %{REQUEST_URI} ^/jackpot/
+
+# Redirect everything under /jackpot/ to index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^jackpot/(.*)$ /jackpot/index.html [L]
