@@ -25,7 +25,7 @@ export const ResultScreen: FC = () => {
 
 	const handleTwitterShare = () => {
 		console.log(referralLink);
-		const shareText = `I just added more cards to my %23SeekersAlliance collection! The season jackpot is now at [$${jackpot}]!!! Use my referral link to play:`;
+		const shareText = `I just added more cards to my %23SeekersAlliance collection! The season jackpot is now at $${jackpot}!!! Use my referral link to play:`;
 
 		window.open(
 			`https://twitter.com/intent/tweet?text=${shareText}&url=${referralLink}`,
