@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from 'components/Header';
 import MainBtn from 'components/MainBtn';
 import styled from 'styled-components';
@@ -10,6 +11,7 @@ import { appState } from 'utils/state';
 import { useSnapshot } from 'valtio';
 
 export const InventoryScreen: FC = () => {
+	const navigate = useNavigate();
 	const { address, jackpot, jackpotTxId, jackpotClaimed, collectedNft } =
 		useSnapshot(appState);
 	const [collectedIds, setCollectedIds] = useState<number[]>(
@@ -71,7 +73,7 @@ export const InventoryScreen: FC = () => {
 			</CardInWallet>
 			<ModalContainer $display={modalDisplay}>
 				<ModalContent>
-					<CloseBtn onClick={() => setModalDisplay(!modalDisplay)} />
+					<CloseBtn onClick={() => navigate(0, { replace: true })} />
 					<ModalTitle>CONGRATULATIONS!</ModalTitle>
 					<ModalSubtitle>{`You've collected all 5 cards & won the $${jackpotClaimed} JACKPOT!!`}</ModalSubtitle>
 					<CoinS src={`${getBaseUrl()}/img/pg6-7/S_icon_glow.png`} />
