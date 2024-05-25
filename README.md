@@ -14,7 +14,7 @@ The following document contains the setup instructions for our smart contracts, 
 
 ---
 
-## Setup steps
+## Setup Steps
 
 ### Register Contract
 - Grants the corresponding roles to the respective contracts. 
