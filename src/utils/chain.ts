@@ -212,7 +212,21 @@ export const subscribeNftContractEvent = () => {
 		.on('data', async (event) => {
 			console.log('transfer batch >>>', event);
 			const receipt = await web3.eth.getTransaction(
-				event.transactionHash,
+				event.transactionHash as string,
+			);
+			console.log('transaction', receipt);
+			await fetchNftIdList();
+		});
+	nftContractWebsocket.events
+		.TransferBatch({
+			filter: {
+				from: appState.address,
+			},
+		})
+		.on('data', async (event) => {
+			console.log('burn cards >>>', event);
+			const receipt = await web3.eth.getTransaction(
+				event.transactionHash as string,
 			);
 			console.log('transaction', receipt);
 			await fetchNftIdList();
