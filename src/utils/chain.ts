@@ -159,7 +159,7 @@ export const subscribeDrawEvent = async () => {
 			SmartContract.Draw,
 		);
 		const subscription = drawContractWebsocket.events.RequestCompleted();
-		subscription.on('data', (event) => {
+		subscription.on('data', async (event) => {
 			console.log('draw event', event);
 			const { requestId } = snapshot(appState);
 			const compareRequestId =
@@ -171,6 +171,11 @@ export const subscribeDrawEvent = async () => {
 				);
 				appState.cardResult = proxy(cardResult);
 			}
+			const tx = await web3.eth.getTransaction(
+				event.transactionHash as string,
+			);
+			console.log('transaction', tx);
+			getJackpotTotalValue();
 		});
 	} catch (error) {
 		console.log(error);
@@ -193,7 +198,7 @@ export const subscribeNftContractEvent = () => {
 		.on('data', async (event) => {
 			console.log('transfer single >>>', event);
 			const receipt = await web3.eth.getTransaction(
-				event.transactionHash,
+				event.transactionHash as string,
 			);
 			console.log('transaction', receipt);
 			await fetchNftIdList();
