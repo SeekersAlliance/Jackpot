@@ -54,6 +54,7 @@ export const ProfitShare: FC<Props> = ({ active = false }) => {
 						<div className="value unclaimed">{`$${profit.unclaim.toFixed(2)}`}</div>
 					</Claim>
 					<MainBtn
+						disabled={profit.unclaim < 0.01}
 						onClick={claimProfit}
 					>{`CLAIM $${profit.unclaim.toFixed(2)}!`}</MainBtn>
 				</UpperLeft>

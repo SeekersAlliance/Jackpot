@@ -315,7 +315,7 @@ export const getProfitShareInfo = async () => {
 		getClaimed(address),
 		getUnclaim(address),
 		(async () => {
-			appState.profit.nextCardSoldProfit = await getPredict(address, 0);
+			appState.profit.nextCardSoldProfit = await getPredict(address, 1);
 		})(),
 	]);
 };
@@ -339,6 +339,7 @@ export const getPredict = async (address: string, numberOfCards: number) => {
 	const result = await fomoContract.methods
 		.getPredict(address, numberOfCards)
 		.call();
+	console.log('predict', result);
 	return Number(result) / 10 ** 6;
 };
 
